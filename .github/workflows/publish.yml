@@ -1,0 +1,38 @@
+name: Publish to Chrome Web Store
+
+on:
+  # Tag-driven release: bump version in package.json, commit, then
+  #   git tag v1.0.3 && git push --tags
+  push:
+    tags:
+      - "v*"
+  # Or trigger manually from the Actions tab.
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      # Plasmo's `package` script runs `plasmo build` then zips the
+      # production output to build/chrome-mv3-prod.zip with manifest.json
+      # at the zip root — exactly what BPP expects.
+      - name: Build + package
+        run: bun run package
+
+      - name: Upload + publish to Chrome Web Store
+        uses: PlasmoHQ/bpp@v3
+        with:
+          keys: ${{ secrets.BPP_KEYS }}
+          chrome-file: build/chrome-mv3-prod.zip
+          verbose: true
