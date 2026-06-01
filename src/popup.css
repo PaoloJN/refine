@@ -511,43 +511,6 @@ button {
   background: var(--bg-elevated);
 }
 
-/* ─── First-run presets ─────────────────────────────────────── */
-.rf-presets {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  padding: 0 12px 14px;
-  margin-top: -14px;
-}
-.rf-preset {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 0;
-  border-radius: 8px;
-  background: var(--bg-elevated);
-  color: var(--fg-muted);
-  border: 1px solid var(--border);
-  font-size: 11.5px;
-  font-weight: 550;
-  transition: background-color 0.12s, color 0.12s, border-color 0.12s;
-}
-.rf-preset:hover {
-  border-color: var(--border-strong);
-  color: var(--fg);
-}
-.rf-preset--primary {
-  background: var(--fg);
-  color: var(--bg);
-  border-color: var(--fg);
-}
-.rf-preset--primary:hover {
-  background: var(--fg);
-  color: var(--bg);
-  opacity: 0.92;
-}
-
 /* ─── Settings screen ───────────────────────────────────────── */
 .rf-settings-list {
   padding: 4px 0;

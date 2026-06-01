@@ -12,7 +12,6 @@
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
     "@plasmohq/storage": "^1.13.0",
-    "plasmo": "^0.89.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
@@ -21,6 +20,7 @@
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "plasmo": "^0.89.4",
     "prettier": "^3.3.2",
     "typescript": "^5.5.3"
   },
@@ -35,8 +35,7 @@
       "declarativeNetRequest"
     ],
     "host_permissions": [
-      "https://www.youtube.com/*",
-      "https://m.youtube.com/*"
+      "https://www.youtube.com/*"
     ],
     "commands": {
       "_execute_action": {

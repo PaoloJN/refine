@@ -22,8 +22,8 @@ Hide YouTube shorts, recommendations, comments, end-screen feeds, and other dist
 
 - **Plasmo** + TypeScript + React 18
 - **`@plasmohq/storage`** over `chrome.storage.local` for settings
-- **`lucide-react`** icons
-- Plain CSS with design tokens (oklch palette, dark-first)
+- **`@phosphor-icons/react`** icons
+- Plain CSS with design tokens (neutral grayscale, dark-first)
 - MV3 service worker
 
 ## Run locally

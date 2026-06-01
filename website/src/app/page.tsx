@@ -52,7 +52,7 @@ export default function Home() {
               <a href="#features">Features</a>
             </Button>
             <Button asChild variant="ghost" size="sm">
-              <a href="https://github.com" target="_blank" rel="noreferrer">
+              <a href="https://github.com/PaoloJN/refine" target="_blank" rel="noreferrer">
                 GitHub
               </a>
             </Button>
@@ -117,7 +117,7 @@ export default function Home() {
       {/* What it hides */}
       <section className="border-b border-border">
         <div className="mx-auto max-w-5xl px-6 py-20">
-          <h2 className="text-3xl font-semibold tracking-tight">Sixteen toggles. One window.</h2>
+          <h2 className="text-3xl font-semibold tracking-tight">Every distraction. One window.</h2>
           <div className="mt-10 grid gap-x-12 gap-y-3 font-mono text-sm md:grid-cols-2">
             {[
               "Home feed",
@@ -171,15 +171,32 @@ export default function Home() {
             <span>Refine</span>
           </div>
           <nav className="flex items-center gap-4">
-            <a className="inline-flex items-center gap-1.5 hover:text-foreground" href="#">
+            <a
+              className="inline-flex items-center gap-1.5 hover:text-foreground"
+              href="https://github.com/sponsors/PaoloJN"
+              target="_blank"
+              rel="noreferrer">
               <Heart className="h-3.5 w-3.5" /> Donate
             </a>
-            <a className="inline-flex items-center gap-1.5 hover:text-foreground" href="#">
+            <a
+              className="inline-flex items-center gap-1.5 hover:text-foreground"
+              href="https://github.com/PaoloJN/refine/issues/new?labels=enhancement"
+              target="_blank"
+              rel="noreferrer">
               <Lightbulb className="h-3.5 w-3.5" /> Request a feature
             </a>
-            <a className="inline-flex items-center gap-1.5 hover:text-foreground" href="#">
+            <a
+              className="inline-flex items-center gap-1.5 hover:text-foreground"
+              href="https://github.com/PaoloJN/refine/issues"
+              target="_blank"
+              rel="noreferrer">
               <LifeBuoy className="h-3.5 w-3.5" /> Support
             </a>
+            <Link
+              className="ml-2 inline-flex items-center gap-1.5 hover:text-foreground"
+              href="/privacy">
+              Privacy
+            </Link>
           </nav>
         </div>
       </footer>

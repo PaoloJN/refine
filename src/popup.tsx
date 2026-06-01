@@ -14,9 +14,9 @@ import "./popup.css"
 type Screen = "main" | "settings"
 
 const LINK_URLS = {
-  donate: "https://github.com/sponsors",
-  request: "https://github.com",
-  support: "https://github.com"
+  donate: "https://github.com/sponsors/PaoloJN",
+  request: "https://github.com/PaoloJN/refine/issues/new?labels=enhancement",
+  support: "https://github.com/PaoloJN/refine/issues"
 } as const
 
 export default function Popup() {
