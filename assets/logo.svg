@@ -1,9 +1,10 @@
 <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M40 60C40 48.9543 48.9543 40 60 40V123H40V60Z" fill="currentColor"/>
-<rect x="80" y="80" width="20" height="20" fill="currentColor"/>
-<rect x="100" y="60" width="20" height="20" fill="currentColor"/>
-<rect x="120" y="40" width="20" height="20" fill="currentColor"/>
-<path d="M120 80H140V120C140 131.046 131.046 140 120 140V140V80Z" fill="currentColor"/>
-<path d="M40 60C40 48.9543 48.9543 40 60 40L100 40V60L40 60Z" fill="currentColor"/>
-<path d="M140 120C140 131.046 131.046 140 120 140H60V120L140 120Z" fill="currentColor"/>
+  <rect width="180" height="180" fill="#151515"/>
+  <path d="M40 60C40 48.9543 48.9543 40 60 40V123H40V60Z" fill="white"/>
+  <rect x="80" y="80" width="20" height="20" fill="white"/>
+  <rect x="100" y="60" width="20" height="20" fill="white"/>
+  <rect x="120" y="40" width="20" height="20" fill="white"/>
+  <path d="M120 80H140V120C140 131.046 131.046 140 120 140V140V80Z" fill="white"/>
+  <path d="M40 60C40 48.9543 48.9543 40 60 40L100 40V60L40 60Z" fill="white"/>
+  <path d="M140 120C140 131.046 131.046 140 120 140H60V120L140 120Z" fill="white"/>
 </svg>
