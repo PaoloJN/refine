@@ -1,0 +1,60 @@
+/* Chrome Web Store asset token layer. Scoped to .cws-frame so it
+   doesn't leak into landing pages. Mirrors the Refine popup's warm-cream
+   light palette (src/popup.css) so the mocks read as the real product. */
+
+.cws-frame[data-rf-theme="light"] {
+  --rf-bg: #fbfaf5;
+  --rf-surface: #ffffff;
+  --rf-footer: #fbfaf5;
+  --rf-inset: #fafafa;
+  --rf-selected: #f4f1e9;
+  --rf-border: #efece5;
+  --rf-border-strong: #e8e4d8;
+  --rf-fg: #111111;
+  --rf-fg-muted: #7a7567;
+  --rf-fg-subtle: #8a8579;
+  --rf-fg-faint: #bdb8ad;
+  --rf-kbd-bg: #f1eee5;
+  --rf-kbd-border: #e2dfd4;
+  --rf-kbd-fg: #525242;
+  --rf-yt-red: #ff0000;
+}
+
+.cws-frame[data-rf-theme="dark"] {
+  --rf-bg: #0d0d0d;
+  --rf-surface: #161616;
+  --rf-footer: #111111;
+  --rf-inset: #0a0a0a;
+  --rf-selected: #1f1f1f;
+  --rf-border: #222222;
+  --rf-border-strong: #2c2c2c;
+  --rf-fg: #f3f3f3;
+  --rf-fg-muted: #a3a3a3;
+  --rf-fg-subtle: #878787;
+  --rf-fg-faint: #525252;
+  --rf-kbd-bg: #1c1c1c;
+  --rf-kbd-border: #2a2a2a;
+  --rf-kbd-fg: #a3a3a3;
+  --rf-yt-red: #ff4040;
+}
+
+.cws-frame {
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  background: var(--rf-bg);
+  color: var(--rf-fg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gallery shell. Dark so the cream assets pop. */
+.cws-page {
+  background: #1a1a1a;
+  min-height: 100vh;
+  padding: 32px;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  color: #f3f3f3;
+}
+
+html:has(.cws-page) {
+  background: #1a1a1a;
+}
