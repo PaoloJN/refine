@@ -1,0 +1,57 @@
+{
+  "name": "refine",
+  "displayName": "Refine",
+  "version": "0.1.0",
+  "description": "Hide YouTube shorts, recommendations, comments, and other distractions. Reclaim your watch page.",
+  "author": "Refine",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "package": "plasmo build && plasmo package"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "^2.1.7",
+    "@plasmohq/storage": "^1.13.0",
+    "plasmo": "^0.89.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.270",
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "prettier": "^3.3.2",
+    "typescript": "^5.5.3"
+  },
+  "manifest": {
+    "name": "Refine — Hide YouTube distractions",
+    "short_name": "Refine",
+    "author": "Refine",
+    "minimum_chrome_version": "105",
+    "permissions": [
+      "storage",
+      "tabs",
+      "declarativeNetRequest"
+    ],
+    "host_permissions": [
+      "https://www.youtube.com/*",
+      "https://m.youtube.com/*"
+    ],
+    "commands": {
+      "_execute_action": {
+        "suggested_key": {
+          "default": "Alt+Shift+U",
+          "mac": "Alt+Shift+U"
+        }
+      },
+      "toggle-master": {
+        "suggested_key": {
+          "default": "Alt+Shift+P",
+          "mac": "Alt+Shift+P"
+        },
+        "description": "Pause or resume Refine on this site"
+      }
+    }
+  }
+}
