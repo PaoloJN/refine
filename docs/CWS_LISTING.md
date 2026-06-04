@@ -2,7 +2,7 @@
 
 Paste each field into the [Chrome Web Store Developer Console](https://chrome.google.com/webstore/devconsole) submission form.
 
-> **Replace `https://refine.vercel.app` everywhere below with the real Vercel
+> **Replace `https://refine-yt.vercel.app` everywhere below with the real Vercel
 > URL** before submitting.
 
 ---
@@ -78,7 +78,7 @@ Refine writes your preferences as attributes on the YouTube page before it paint
 
 PRIVACY
 
-Refine collects nothing. No accounts, no telemetry, no remote servers. Your toggle preferences live in your browser's local storage and nowhere else. Full privacy policy: https://refine.vercel.app/privacy
+Refine collects nothing. No accounts, no telemetry, no remote servers. Your toggle preferences live in your browser's local storage and nowhere else. Full privacy policy: https://refine-yt.vercel.app/privacy
 
 OPEN SOURCE
 
@@ -165,7 +165,7 @@ And under the certification toggles at the bottom of the Privacy practices tab:
 ## Privacy policy URL
 
 ```
-https://refine.vercel.app/privacy
+https://refine-yt.vercel.app/privacy
 ```
 
 ---
@@ -179,7 +179,7 @@ https://github.com/PaoloJN/refine/issues
 ## Homepage URL
 
 ```
-https://refine.vercel.app
+https://refine-yt.vercel.app
 ```
 
 ---
