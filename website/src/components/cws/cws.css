@@ -1,52 +1,215 @@
-/* Chrome Web Store asset token layer. Scoped to .cws-frame so it
-   doesn't leak into landing pages. Mirrors the Refine popup's warm-cream
-   light palette (src/popup.css) so the mocks read as the real product. */
-
-.cws-frame[data-rf-theme="light"] {
-  --rf-bg: #fbfaf5;
-  --rf-surface: #ffffff;
-  --rf-footer: #fbfaf5;
-  --rf-inset: #fafafa;
-  --rf-selected: #f4f1e9;
-  --rf-border: #efece5;
-  --rf-border-strong: #e8e4d8;
-  --rf-fg: #111111;
-  --rf-fg-muted: #7a7567;
-  --rf-fg-subtle: #8a8579;
-  --rf-fg-faint: #bdb8ad;
-  --rf-kbd-bg: #f1eee5;
-  --rf-kbd-border: #e2dfd4;
-  --rf-kbd-fg: #525242;
-  --rf-yt-red: #ff0000;
-}
-
-.cws-frame[data-rf-theme="dark"] {
-  --rf-bg: #0d0d0d;
-  --rf-surface: #161616;
-  --rf-footer: #111111;
-  --rf-inset: #0a0a0a;
-  --rf-selected: #1f1f1f;
-  --rf-border: #222222;
-  --rf-border-strong: #2c2c2c;
-  --rf-fg: #f3f3f3;
-  --rf-fg-muted: #a3a3a3;
-  --rf-fg-subtle: #878787;
-  --rf-fg-faint: #525252;
-  --rf-kbd-bg: #1c1c1c;
-  --rf-kbd-border: #2a2a2a;
-  --rf-kbd-fg: #a3a3a3;
-  --rf-yt-red: #ff4040;
-}
+/* Refine — warm-cream editorial system, scoped to .cws-frame so it
+   doesn't leak into landing pages. Mirrors the Claude Design handoff
+   bundle. Ink on cream, one warm clay accent used sparingly. */
 
 .cws-frame {
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  background: var(--rf-bg);
-  color: var(--rf-fg);
+  /* ---- Surfaces ---- */
+  --cream: #fbfaf5;
+  --cream-2: #f4f2e9;
+  --cream-3: #efece1;
+  --paper: #ffffff;
+
+  /* ---- Ink ---- */
+  --ink: #1b1a16;
+  --ink-2: #38362f;
+  --muted: #6d6a5e;
+  --subtle: #9a978a;
+  --faint: #c2bfb2;
+
+  /* ---- Lines ---- */
+  --hairline: #e6e3d8;
+  --hairline-2: #dcd8cb;
+  --hairline-3: #cfcabc;
+
+  /* ---- Warm clay accent (primary CTA only) ---- */
+  --clay: #b9543a;
+  --clay-hover: #a4452f;
+  --clay-soft: #f3e3dc;
+  --clay-line: #e3c4ba;
+
+  /* ---- Type scale (editorial) ---- */
+  --eyebrow: 13px;
+  --t-cap: 13px;
+  --t-body: 15px;
+  --t-body-lg: 18px;
+
+  /* ---- Radii ---- */
+  --r-sm: 6px;
+  --r-md: 9px;
+  --r-lg: 13px;
+  --r-xl: 18px;
+
+  /* ---- Shadows (warm-biased, soft, single layer) ---- */
+  --shadow-pop: 0 26px 60px -22px rgba(45, 40, 28, 0.30), 0 6px 18px -10px rgba(45, 40, 28, 0.18);
+  --shadow-card: 0 14px 36px -18px rgba(45, 40, 28, 0.22);
+  --shadow-sm: 0 2px 8px -3px rgba(45, 40, 28, 0.16);
+
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
   position: relative;
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Gallery shell. Dark so the cream assets pop. */
+.cws-frame * {
+  box-sizing: border-box;
+}
+
+/* ===== Editorial type primitives ===== */
+.cws-frame .eyebrow {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+.cws-frame .eyebrow .num {
+  color: var(--ink);
+}
+
+.cws-frame .headline {
+  font-weight: 600;
+  letter-spacing: -0.032em;
+  line-height: 1.04;
+  color: var(--ink);
+  text-wrap: balance;
+  margin: 0;
+}
+
+.cws-frame .support {
+  font-size: var(--t-body-lg);
+  line-height: 1.55;
+  color: var(--muted);
+  font-weight: 400;
+  text-wrap: pretty;
+  margin: 0;
+}
+
+/* ===== Caption strip (bottom of CWS frames) ===== */
+.cws-frame .caption-strip {
+  display: flex;
+  align-items: center;
+}
+.cws-frame .caption-cell {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: var(--t-cap);
+  white-space: nowrap;
+}
+.cws-frame .caption-cell + .caption-cell {
+  padding-left: 28px;
+  margin-left: 28px;
+  border-left: 1px solid var(--hairline-2);
+}
+.cws-frame .caption-label {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--subtle);
+  font-weight: 500;
+}
+.cws-frame .caption-value {
+  color: var(--ink-2);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+/* ===== Chips ===== */
+.cws-frame .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 30px;
+  padding: 0 13px;
+  border-radius: 999px;
+  border: 1px solid var(--hairline-2);
+  background: var(--paper);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.cws-frame .chip .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--subtle);
+}
+.cws-frame .chip--accent {
+  background: var(--clay);
+  border-color: var(--clay);
+  color: #fff;
+}
+
+/* ===== Window chrome (for floating mocks) ===== */
+.cws-frame .win {
+  background: var(--paper);
+  border: 1px solid var(--hairline-2);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-pop);
+  overflow: hidden;
+}
+.cws-frame .win-bar {
+  height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 13px;
+  background: var(--cream-2);
+  border-bottom: 1px solid var(--hairline);
+}
+.cws-frame .win-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--hairline-3);
+}
+
+/* ===== kbd ===== */
+.cws-frame .kbd {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 7px;
+  border-radius: var(--r-sm);
+  background: var(--cream-2);
+  border: 1px solid var(--hairline-2);
+  color: var(--muted);
+  line-height: 1;
+}
+
+/* ===== Placeholder slot — for real YouTube screenshots ===== */
+.cws-frame .placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--cream-2) 0px,
+    var(--cream-2) 12px,
+    var(--cream-3) 12px,
+    var(--cream-3) 24px
+  );
+  border: 1px dashed var(--hairline-3);
+  border-radius: var(--r-lg);
+  color: var(--subtle);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 12px;
+}
+
+/* ===== Gallery shell — dark so cream assets pop ===== */
 .cws-page {
   background: #1a1a1a;
   min-height: 100vh;

@@ -7,15 +7,21 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] })
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Refine — Hide YouTube distractions",
+  title: "Refine — hide what you didn't come for",
   description:
-    "A Chrome extension that hides shorts, recommendations, comments, and the rest of YouTube's noise. Free, open, and instant."
+    "A small Chrome extension that switches off YouTube's distractions one at a time — Shorts, recommendations, end screens, comments, the homepage feed. Pre-paint, no flicker, no tracking.",
+  openGraph: {
+    title: "Refine — hide what you didn't come for",
+    description:
+      "Quiet YouTube, one toggle at a time. Free, local, open source.",
+    type: "website"
+  }
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>{children}</body>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body>{children}</body>
     </html>
   )
 }

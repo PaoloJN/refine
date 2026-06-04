@@ -199,10 +199,7 @@ function AssetCard({ asset }: { asset: CwsAsset }) {
             width: asset.width,
             height: asset.height,
           }}>
-          <div
-            data-rf-theme="light"
-            className="cws-frame"
-            style={{ width: asset.width, height: asset.height }}>
+          <div className="cws-frame" style={{ width: asset.width, height: asset.height }}>
             {asset.render()}
           </div>
         </div>

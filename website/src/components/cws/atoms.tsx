@@ -1,5 +1,7 @@
 import type { CSSProperties, ReactNode } from "react"
 
+import { Icon, type IconName } from "./icons"
+
 export const FONT_MONO =
   "var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace"
 export const FONT_SANS =
@@ -10,7 +12,6 @@ export const FONT_SANS =
 export function CwsFrame({
   width,
   height,
-  themeName = "light",
   children,
   style,
 }: {
@@ -21,18 +22,61 @@ export function CwsFrame({
   style?: CSSProperties
 }) {
   return (
-    <div
-      data-rf-theme={themeName}
-      className="cws-frame"
-      style={{ width, height, ...style }}>
+    <div className="cws-frame" style={{ width, height, ...style }}>
       {children}
     </div>
   )
 }
 
-// ─── Refine brand mark (matches assets/logo.svg) ─────────────────────
+// ─── Refine brand mark — single SVG, clipPath squircle, currentColor.
+// Construction mirrors snipprompt's BracketMark: one self-contained
+// SVG, no wrapper div. `color` controls the ink body; `glyphColor`
+// controls the `R` paths drawn over it.
 
 export function RefineMark({
+  size = 24,
+  color = "currentColor",
+  glyphColor = "var(--cream)",
+  style,
+}: {
+  size?: number
+  color?: string
+  glyphColor?: string
+  style?: CSSProperties
+}) {
+  const id = `rf-mark-${size}`
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 180 180"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="Refine"
+      style={{ flex: "0 0 auto", display: "block", color, ...style }}>
+      <defs>
+        <clipPath id={id}>
+          <rect width="180" height="180" rx="40" />
+        </clipPath>
+      </defs>
+      <g clipPath={`url(#${id})`}>
+        <rect width="180" height="180" fill="currentColor" />
+        <g fill={glyphColor}>
+          <path d="M40 60C40 48.9543 48.9543 40 60 40V123H40V60Z" />
+          <rect x="80" y="80" width="20" height="20" />
+          <rect x="100" y="60" width="20" height="20" />
+          <rect x="120" y="40" width="20" height="20" />
+          <path d="M120 80H140V120C140 131.046 131.046 140 120 140V140V80Z" />
+          <path d="M40 60C40 48.9543 48.9543 40 60 40L100 40V60L40 60Z" />
+          <path d="M140 120C140 131.046 131.046 140 120 140H60V120L140 120Z" />
+        </g>
+      </g>
+    </svg>
+  )
+}
+
+// ─── Bare `R` glyph — single color, no squircle wrapper. ─────────────
+
+export function RefineGlyph({
   size = 32,
   color = "currentColor",
   style,
@@ -48,7 +92,7 @@ export function RefineMark({
       viewBox="0 0 180 180"
       fill={color}
       aria-label="Refine"
-      style={{ flex: "0 0 auto", color, ...style }}>
+      style={{ flex: "0 0 auto", display: "block", ...style }}>
       <path d="M40 60C40 48.9543 48.9543 40 60 40V123H40V60Z" />
       <rect x="80" y="80" width="20" height="20" />
       <rect x="100" y="60" width="20" height="20" />
@@ -60,1039 +104,1080 @@ export function RefineMark({
   )
 }
 
-// ─── Kbd chip ────────────────────────────────────────────────────────
+// ─── Brand wordmark ──────────────────────────────────────────────────
 
-export function Kbd({ children }: { children: ReactNode }) {
+export function BrandMark({
+  size = "md",
+  sub,
+}: {
+  size?: "sm" | "md" | "lg"
+  sub?: string
+}) {
+  const s = { sm: 18, md: 22, lg: 28 }[size]
+  const fs = { sm: 15, md: 18, lg: 23 }[size]
   return (
-    <kbd
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-        minWidth: 18,
-        height: 18,
-        padding: "0 5px",
-        background: "var(--rf-kbd-bg)",
-        border: "1px solid var(--rf-kbd-border)",
-        borderRadius: 4,
-        fontFamily: FONT_MONO,
-        fontSize: 10.5,
-        fontWeight: 500,
-        color: "var(--rf-kbd-fg)",
-        lineHeight: 1,
-      }}>
-      {children}
-    </kbd>
+    <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+      <RefineMark size={s} />
+      <span
+        style={{
+          fontWeight: 600,
+          fontSize: fs,
+          letterSpacing: "-0.02em",
+          color: "var(--ink)",
+        }}>
+        refine
+      </span>
+      {sub && (
+        <span
+          style={{
+            fontFamily: FONT_MONO,
+            fontSize: 12,
+            color: "var(--subtle)",
+            letterSpacing: "0.02em",
+          }}>
+          {sub}
+        </span>
+      )}
+    </div>
   )
 }
 
-// ─── Eyebrow + headline + sub — the editorial left-block ─────────────
+// ─── Editorial left-block: eyebrow + headline + support ──────────────
 
 export function EditorialBlock({
-  eyebrow,
+  num,
+  label,
   headline,
-  sub,
-  width = 420,
+  support,
+  headlineSize = 50,
+  width,
   style,
 }: {
-  eyebrow: string
+  num: string
+  label: string
   headline: ReactNode
-  sub: string
+  support: string
+  headlineSize?: number
   width?: number
   style?: CSSProperties
 }) {
   return (
-    <div style={{ width, display: "flex", flexDirection: "column", gap: 18, ...style }}>
-      <div
-        style={{
-          fontFamily: FONT_MONO,
-          fontSize: 11,
-          fontWeight: 600,
-          color: "var(--rf-fg-subtle)",
-          letterSpacing: "0.18em",
-          textTransform: "uppercase",
-        }}>
-        {eyebrow}
+    <div style={{ width, ...style }}>
+      <div className="eyebrow">
+        <span className="num">{num}</span>&nbsp;—&nbsp;{label}
       </div>
       <h1
-        style={{
-          margin: 0,
-          fontFamily: FONT_SANS,
-          fontSize: 60,
-          lineHeight: 1.04,
-          fontWeight: 600,
-          letterSpacing: "-0.028em",
-          color: "var(--rf-fg)",
-        }}>
+        className="headline"
+        style={{ fontSize: headlineSize, marginTop: 24 }}>
         {headline}
       </h1>
-      <p
-        style={{
-          margin: 0,
-          fontFamily: FONT_SANS,
-          fontSize: 15,
-          lineHeight: 1.55,
-          color: "var(--rf-fg-muted)",
-          letterSpacing: "-0.005em",
-        }}>
-        {sub}
+      <p className="support" style={{ marginTop: 24, maxWidth: 430 }}>
+        {support}
       </p>
     </div>
   )
 }
 
-// ─── Footer captions strip — three UPPERCASE label · value pairs ─────
+// ─── Caption strip ───────────────────────────────────────────────────
 
-export function CaptionStrip({
-  items,
-  style,
-}: {
-  items: { label: string; value: string }[]
-  style?: CSSProperties
-}) {
+export function CaptionStrip({ cells }: { cells: [string, string][] }) {
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: `repeat(${items.length}, 1fr)`,
-        gap: 32,
-        padding: "20px 60px",
-        borderTop: "1px solid var(--rf-border)",
-        background: "var(--rf-bg)",
-        ...style,
-      }}>
-      {items.map((it) => (
-        <div
-          key={it.label}
-          style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          <span
-            style={{
-              fontFamily: FONT_MONO,
-              fontSize: 10,
-              fontWeight: 600,
-              color: "var(--rf-fg-subtle)",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-            }}>
-            {it.label}
-          </span>
-          <span
-            style={{
-              fontFamily: FONT_SANS,
-              fontSize: 14,
-              fontWeight: 500,
-              color: "var(--rf-fg)",
-              letterSpacing: "-0.005em",
-            }}>
-            {it.value}
-          </span>
+    <div className="caption-strip">
+      {cells.map((c, i) => (
+        <div key={i} className="caption-cell">
+          <span className="caption-label">{c[0]}</span>
+          <span className="caption-value">{c[1]}</span>
         </div>
       ))}
     </div>
   )
 }
 
-// ─── Window chrome (for product mocks) ───────────────────────────────
+// ─── Annotation label (used in shot #02) ─────────────────────────────
 
-export function WindowChrome({
-  title,
+export function Anno({ top, text }: { top: number; text: string }) {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: 0,
+        top,
+        display: "flex",
+        alignItems: "center",
+      }}>
+      <span style={{ width: 46, height: 1, background: "var(--hairline-3)" }} />
+      <span
+        style={{
+          width: 5,
+          height: 5,
+          borderRadius: 999,
+          background: "var(--ink)",
+          marginLeft: -3,
+        }}
+      />
+      <span
+        style={{
+          marginLeft: 12,
+          fontFamily: FONT_MONO,
+          fontSize: 13,
+          letterSpacing: "0.02em",
+          color: "var(--ink-2)",
+          whiteSpace: "nowrap",
+        }}>
+        {text}
+      </span>
+    </div>
+  )
+}
+
+// ─── Placeholder slot — drop a real YouTube screenshot in here ───────
+
+export function Placeholder({
   width,
   height,
-  children,
+  hint = "Drop a YouTube screenshot here",
   style,
 }: {
-  title?: string
-  width: number | string
+  width?: number | string
   height?: number | string
-  children: ReactNode
+  hint?: string
   style?: CSSProperties
 }) {
   return (
-    <div
-      style={{
-        width,
-        height,
-        background: "var(--rf-surface)",
-        border: "1px solid var(--rf-border-strong)",
-        borderRadius: 14,
-        overflow: "hidden",
-        boxShadow:
-          "0 1px 0 rgba(0,0,0,0.04), 0 18px 36px rgba(0,0,0,0.10), 0 48px 96px rgba(0,0,0,0.16)",
-        display: "flex",
-        flexDirection: "column",
-        ...style,
-      }}>
-      <div
-        style={{
-          height: 32,
-          flex: "0 0 auto",
-          background: "var(--rf-inset)",
-          borderBottom: "1px solid var(--rf-border)",
-          display: "flex",
-          alignItems: "center",
-          padding: "0 12px",
-          gap: 8,
-        }}>
-        {[
-          "#ff5f57",
-          "#febc2e",
-          "#28c840",
-        ].map((c) => (
-          <span
-            key={c}
-            style={{
-              width: 11,
-              height: 11,
-              borderRadius: 99,
-              background: c,
-              opacity: 0.78,
-            }}
-          />
-        ))}
-        {title && (
-          <span
-            style={{
-              marginLeft: "auto",
-              marginRight: "auto",
-              transform: "translateX(-16px)",
-              fontFamily: FONT_MONO,
-              fontSize: 11,
-              color: "var(--rf-fg-subtle)",
-              letterSpacing: "0.02em",
-            }}>
-            {title}
-          </span>
-        )}
-      </div>
-      <div style={{ flex: 1, minHeight: 0, position: "relative" }}>{children}</div>
+    <div className="placeholder" style={{ width, height, ...style }}>
+      <span>{hint}</span>
     </div>
   )
 }
 
-// ─── Refine popup mock — mirrors src/components/popup-frame.tsx ──────
+// ─── 6 groups × 16 toggles. `on` = element is hidden. ────────────────
+// Labels mirror the extension's MODEL where they can; the structure
+// matches the Claude Design popup (Feed / Shorts / Recommendations /
+// Watch page / Comments / Chrome).
 
-export type ToggleRow = {
+export type RToggle = {
   id: string
   label: string
+  icon: IconName | string
   on: boolean
-  child?: boolean
 }
 
-export type ToggleGroup = {
-  name: string
-  count: string
-  expanded?: boolean
-  rows: ToggleRow[]
+export type RGroup = {
+  group: string
+  items: RToggle[]
 }
 
-export function RefinePopupMock({
-  variant = "default",
-  width = 360,
-  groups,
-  meter = { on: 12, total: 16 },
-  master = true,
-  style,
-}: {
-  variant?: "default" | "paused" | "firstrun"
-  width?: number
-  groups?: ToggleGroup[]
-  meter?: { on: number; total: number }
-  master?: boolean
-  style?: CSSProperties
-}) {
-  return (
-    <div
-      style={{
-        width,
-        background: "var(--rf-surface)",
-        border: "1px solid var(--rf-border-strong)",
-        borderRadius: 14,
-        overflow: "hidden",
-        boxShadow:
-          "0 1px 0 rgba(0,0,0,0.05), 0 16px 32px rgba(0,0,0,0.12), 0 48px 96px rgba(0,0,0,0.18)",
-        fontFamily: FONT_SANS,
-        ...style,
-      }}>
-      <PopupHeader master={master} subtitle="youtube.com" />
-      {variant === "paused" && <PopupPausedBody />}
-      {variant === "firstrun" && <PopupFirstRunBody />}
-      {variant === "default" && (
-        <>
-          <PopupMeter on={meter.on} total={meter.total} />
-          <PopupGroupList groups={groups ?? DEFAULT_GROUPS} />
-        </>
-      )}
-      <PopupFooter />
-    </div>
+export const RMODEL: RGroup[] = [
+  {
+    group: "Feed",
+    items: [
+      { id: "home", label: "Home feed", icon: "house", on: true },
+      { id: "explore", label: "Explore & Trending", icon: "compass", on: true },
+      { id: "subs", label: "Subscriptions grid", icon: "squares-four", on: false },
+    ],
+  },
+  {
+    group: "Shorts",
+    items: [
+      { id: "shorts", label: "Shorts shelf", icon: "play-circle", on: true },
+      { id: "shortsside", label: "Shorts in sidebar", icon: "rows", on: true },
+    ],
+  },
+  {
+    group: "Recommendations",
+    items: [
+      { id: "watchnext", label: "Watch-next sidebar", icon: "sidebar-simple", on: true },
+      { id: "endfeed", label: "End-screen feed", icon: "grid-four", on: true },
+      { id: "infocards", label: "Info cards", icon: "cards-three", on: true },
+    ],
+  },
+  {
+    group: "Watch page",
+    items: [
+      { id: "livechat", label: "Live chat", icon: "chat-circle-dots", on: true },
+      { id: "autoplay", label: "Autoplay next", icon: "skip-forward", on: false },
+      { id: "merch", label: "Merch shelf", icon: "tag", on: true },
+    ],
+  },
+  {
+    group: "Comments",
+    items: [
+      { id: "comments", label: "Comments", icon: "chat-text", on: true },
+      { id: "avatars", label: "Profile photos", icon: "user-circle", on: false },
+    ],
+  },
+  {
+    group: "Chrome",
+    items: [
+      { id: "notif", label: "Notifications", icon: "bell", on: true },
+      { id: "search", label: "Search suggestions", icon: "magnifying-glass", on: false },
+      { id: "header", label: "Top header", icon: "layout", on: true },
+    ],
+  },
+]
+
+function countAll(model: RGroup[], all: boolean) {
+  let on = 0
+  let total = 0
+  model.forEach((g) =>
+    g.items.forEach((it) => {
+      total++
+      if (all || it.on) on++
+    }),
   )
+  return { on, total }
 }
 
-function PopupHeader({ master, subtitle }: { master: boolean; subtitle: string }) {
-  return (
-    <div
-      style={{
-        height: 56,
-        padding: "0 14px",
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        borderBottom: "1px solid var(--rf-border)",
-      }}>
-      <span
-        style={{
-          width: 28,
-          height: 28,
-          borderRadius: 7,
-          background: "var(--rf-fg)",
-          color: "var(--rf-surface)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}>
-        <RefineMark size={18} />
-      </span>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <span
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            letterSpacing: "-0.012em",
-            color: "var(--rf-fg)",
-          }}>
-          Refine
-        </span>
-        <span
-          style={{
-            fontSize: 11,
-            fontFamily: FONT_MONO,
-            color: "var(--rf-fg-muted)",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 5,
-          }}>
-          <span
-            style={{
-              width: 5,
-              height: 5,
-              borderRadius: 99,
-              background: master ? "#7aa67a" : "var(--rf-fg-faint)",
-            }}
-          />
-          {subtitle}
-        </span>
-      </div>
-      <button
-        style={{
-          marginLeft: "auto",
-          width: 28,
-          height: 28,
-          borderRadius: 7,
-          border: "1px solid var(--rf-border)",
-          background: master ? "var(--rf-fg)" : "transparent",
-          color: master ? "var(--rf-surface)" : "var(--rf-fg-muted)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer",
-        }}
-        aria-label="Power">
-        <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round">
-          <path d="M12 2v10" />
-          <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
-        </svg>
-      </button>
-    </div>
-  )
-}
+// ─── Switch ──────────────────────────────────────────────────────────
 
-function PopupMeter({ on, total }: { on: number; total: number }) {
-  const pct = total === 0 ? 0 : (on / total) * 100
-  return (
-    <div
-      style={{
-        padding: "12px 14px",
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        borderBottom: "1px solid var(--rf-border)",
-        background: "var(--rf-inset)",
-      }}>
-      <span style={{ fontSize: 11.5, color: "var(--rf-fg-muted)", letterSpacing: "-0.005em" }}>
-        Elements hidden
-      </span>
-      <div
-        style={{
-          flex: 1,
-          height: 4,
-          borderRadius: 99,
-          background: "var(--rf-border)",
-          overflow: "hidden",
-          position: "relative",
-        }}>
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: `${pct}%`,
-            background: "var(--rf-fg)",
-          }}
-        />
-      </div>
-      <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: "var(--rf-fg)" }}>
-        {on}/{total}
-      </span>
-    </div>
-  )
-}
-
-function PopupGroupList({ groups }: { groups: ToggleGroup[] }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      {groups.map((g) => (
-        <div key={g.name} style={{ borderBottom: "1px solid var(--rf-border)" }}>
-          <div
-            style={{
-              padding: "10px 14px",
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              background: "var(--rf-surface)",
-            }}>
-            <svg
-              width={11}
-              height={11}
-              viewBox="0 0 16 16"
-              style={{
-                color: "var(--rf-fg-subtle)",
-                transform: g.expanded ? "rotate(90deg)" : "rotate(0deg)",
-                transition: "transform 120ms",
-              }}>
-              <path d="M5 4l5 4-5 4z" fill="currentColor" />
-            </svg>
-            <span style={{ fontSize: 12.5, fontWeight: 600, color: "var(--rf-fg)" }}>
-              {g.name}
-            </span>
-            <span
-              style={{
-                marginLeft: "auto",
-                fontFamily: FONT_MONO,
-                fontSize: 10.5,
-                color: "var(--rf-fg-subtle)",
-              }}>
-              {g.count}
-            </span>
-          </div>
-          {g.expanded && (
-            <div style={{ padding: "4px 0 8px" }}>
-              {g.rows.map((r) => (
-                <PopupRow key={r.id} row={r} />
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function PopupRow({ row }: { row: ToggleRow }) {
-  return (
-    <div
-      style={{
-        height: 32,
-        padding: row.child ? "0 14px 0 38px" : "0 14px 0 24px",
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-      }}>
-      <span
-        style={{
-          fontSize: 12.5,
-          color: row.child ? "var(--rf-fg-muted)" : "var(--rf-fg)",
-          letterSpacing: "-0.005em",
-        }}>
-        {row.label}
-      </span>
-      <Switch on={row.on} style={{ marginLeft: "auto" }} />
-    </div>
-  )
-}
-
-function Switch({ on, style }: { on: boolean; style?: CSSProperties }) {
+function Switch({ on, size = "md" }: { on: boolean; size?: "sm" | "md" }) {
+  const d = { sm: { w: 30, h: 18, k: 12, p: 3 }, md: { w: 34, h: 20, k: 14, p: 3 } }[size]
+  const travel = d.w - d.k - d.p * 2
   return (
     <span
       style={{
-        width: 28,
-        height: 16,
-        borderRadius: 99,
-        background: on ? "var(--rf-fg)" : "var(--rf-border-strong)",
         position: "relative",
-        flex: "0 0 auto",
-        transition: "background 120ms",
-        ...style,
+        flexShrink: 0,
+        width: d.w,
+        height: d.h,
+        borderRadius: 999,
+        background: on ? "var(--ink)" : "var(--cream-2)",
+        border: `1px solid ${on ? "var(--ink)" : "var(--hairline-3)"}`,
+        display: "inline-block",
       }}>
       <span
         style={{
           position: "absolute",
-          top: 2,
-          left: on ? 14 : 2,
-          width: 12,
-          height: 12,
-          borderRadius: 99,
-          background: on ? "var(--rf-surface)" : "var(--rf-fg-faint)",
-          transition: "left 120ms",
+          top: d.p - 1,
+          left: d.p - 1,
+          width: d.k,
+          height: d.k,
+          borderRadius: 999,
+          transform: on ? `translateX(${travel}px)` : "translateX(0)",
+          background: on ? "var(--paper)" : "var(--faint)",
         }}
       />
     </span>
   )
 }
 
-function PopupFooter() {
+// ─── Toggle row ──────────────────────────────────────────────────────
+
+function Row({ it, dense }: { it: RToggle; dense?: boolean }) {
   return (
     <div
       style={{
-        height: 38,
-        padding: "0 12px",
         display: "flex",
         alignItems: "center",
-        gap: 8,
-        borderTop: "1px solid var(--rf-border)",
-        background: "var(--rf-footer)",
-      }}>
-      {[
-        { label: "Donate" },
-        { label: "Request" },
-        { label: "Support" },
-      ].map((l) => (
-        <span
-          key={l.label}
-          style={{
-            fontFamily: FONT_MONO,
-            fontSize: 10.5,
-            color: "var(--rf-fg-muted)",
-            letterSpacing: "0.04em",
-            textTransform: "lowercase",
-          }}>
-          {l.label.toLowerCase()}
-        </span>
-      ))}
-      <span
-        style={{
-          marginLeft: "auto",
-          width: 22,
-          height: 22,
-          borderRadius: 6,
-          border: "1px solid var(--rf-border)",
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "var(--rf-fg-muted)",
-        }}>
-        <svg width={11} height={11} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-          <circle cx="12" cy="12" r="3" />
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-        </svg>
-      </span>
-    </div>
-  )
-}
-
-function PopupPausedBody() {
-  return (
-    <div
-      style={{
-        padding: "44px 24px 32px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 14,
-        textAlign: "center",
+        gap: 11,
+        padding: dense ? "7px 14px" : "8px 14px",
       }}>
       <span
         style={{
-          width: 52,
-          height: 52,
-          borderRadius: 99,
-          background: "var(--rf-inset)",
-          border: "1px solid var(--rf-border)",
+          width: 18,
+          flexShrink: 0,
           display: "flex",
-          alignItems: "center",
           justifyContent: "center",
-          color: "var(--rf-fg-muted)",
+          color: it.on ? "var(--ink-2)" : "var(--faint)",
         }}>
-        <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round">
-          <path d="M12 2v10" />
-          <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
-        </svg>
+        <Icon name={it.icon} size={16} />
       </span>
-      <div
-        style={{
-          fontSize: 15,
-          fontWeight: 600,
-          color: "var(--rf-fg)",
-          letterSpacing: "-0.012em",
-        }}>
-        Refine is paused
-      </div>
-      <div
-        style={{
-          fontSize: 12,
-          color: "var(--rf-fg-muted)",
-          lineHeight: 1.5,
-          maxWidth: 240,
-        }}>
-        Nothing on this tab is being hidden. Resume to put your settings back.
-      </div>
-      <button
-        style={{
-          marginTop: 6,
-          height: 32,
-          padding: "0 14px",
-          borderRadius: 7,
-          border: "none",
-          background: "var(--rf-fg)",
-          color: "var(--rf-surface)",
-          fontSize: 12.5,
-          fontWeight: 500,
-          fontFamily: FONT_SANS,
-          letterSpacing: "-0.005em",
-          cursor: "pointer",
-        }}>
-        Resume on this site
-      </button>
-      <span
-        style={{
-          marginTop: 8,
-          fontFamily: FONT_MONO,
-          fontSize: 10.5,
-          color: "var(--rf-fg-subtle)",
-          display: "inline-flex",
-          gap: 4,
-        }}>
-        or <Kbd>⌘</Kbd><Kbd>⇧</Kbd><Kbd>Y</Kbd>
-      </span>
-    </div>
-  )
-}
-
-function PopupFirstRunBody() {
-  const tiles = [
-    {
-      name: "Focused",
-      sub: "Recommended default",
-      count: "12 toggles",
-      selected: true,
-    },
-    {
-      name: "Watch-only",
-      sub: "Player + title only",
-      count: "16 toggles",
-      selected: false,
-    },
-    {
-      name: "Minimal",
-      sub: "Master toggle alone",
-      count: "0 toggles",
-      selected: false,
-    },
-  ]
-  return (
-    <div style={{ padding: "18px 14px 12px" }}>
-      <div
-        style={{
-          fontSize: 12.5,
-          fontWeight: 600,
-          color: "var(--rf-fg)",
-          marginBottom: 4,
-          letterSpacing: "-0.005em",
-        }}>
-        Pick a starting point
-      </div>
-      <div
-        style={{
-          fontSize: 11.5,
-          color: "var(--rf-fg-muted)",
-          marginBottom: 12,
-          lineHeight: 1.45,
-        }}>
-        You can change anything later, one toggle at a time.
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        {tiles.map((t) => (
-          <div
-            key={t.name}
-            style={{
-              padding: "10px 12px",
-              border: "1px solid",
-              borderColor: t.selected ? "var(--rf-fg)" : "var(--rf-border)",
-              background: t.selected ? "var(--rf-inset)" : "var(--rf-surface)",
-              borderRadius: 9,
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-            }}>
-            <span
-              style={{
-                width: 14,
-                height: 14,
-                borderRadius: 99,
-                border: `1.5px solid ${t.selected ? "var(--rf-fg)" : "var(--rf-border-strong)"}`,
-                background: t.selected ? "var(--rf-fg)" : "transparent",
-                position: "relative",
-                flex: "0 0 auto",
-              }}>
-              {t.selected && (
-                <span
-                  style={{
-                    position: "absolute",
-                    inset: 3,
-                    borderRadius: 99,
-                    background: "var(--rf-surface)",
-                  }}
-                />
-              )}
-            </span>
-            <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
-              <span style={{ fontSize: 12.5, fontWeight: 600, color: "var(--rf-fg)" }}>
-                {t.name}
-              </span>
-              <span style={{ fontSize: 11, color: "var(--rf-fg-muted)" }}>{t.sub}</span>
-            </div>
-            <span
-              style={{
-                marginLeft: "auto",
-                fontFamily: FONT_MONO,
-                fontSize: 10.5,
-                color: "var(--rf-fg-subtle)",
-              }}>
-              {t.count}
-            </span>
-          </div>
-        ))}
-      </div>
-      <div
-        style={{
-          marginTop: 12,
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-        }}>
-        <button
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div
           style={{
-            flex: 1,
-            height: 32,
-            border: "none",
-            borderRadius: 7,
-            background: "var(--rf-fg)",
-            color: "var(--rf-surface)",
-            fontFamily: FONT_SANS,
-            fontSize: 12.5,
-            fontWeight: 500,
+            fontSize: 13,
+            fontWeight: 450,
             letterSpacing: "-0.005em",
-            cursor: "pointer",
+            color: it.on ? "var(--ink)" : "var(--muted)",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}>
-          Apply Focused
-        </button>
-        <button
-          style={{
-            height: 32,
-            padding: "0 12px",
-            border: "1px solid var(--rf-border)",
-            borderRadius: 7,
-            background: "var(--rf-surface)",
-            color: "var(--rf-fg-muted)",
-            fontFamily: FONT_SANS,
-            fontSize: 12,
-            cursor: "pointer",
-          }}>
-          Skip
-        </button>
+          {it.label}
+        </div>
       </div>
+      <Switch on={it.on} size={dense ? "sm" : "md"} />
     </div>
   )
 }
 
-// ─── Default group payload — used by Screenshot #01 ──────────────────
+// ─── Header ──────────────────────────────────────────────────────────
 
-export const DEFAULT_GROUPS: ToggleGroup[] = [
-  {
-    name: "Home",
-    count: "4 of 5 hidden",
-    expanded: true,
-    rows: [
-      { id: "home", label: "Hide home feed", on: true },
-      { id: "shorts", label: "Hide shorts", on: true },
-      { id: "mixes", label: "Hide mixes", on: false },
-      { id: "trending", label: "Hide trending & explore", on: true },
-      { id: "subscriptions", label: "Hide subscriptions feed", on: true },
-    ],
-  },
-  { name: "Watch page", count: "6 of 8 hidden", rows: [] },
-  { name: "Comments", count: "1 of 2 hidden", rows: [] },
-  { name: "Chrome", count: "1 of 5 hidden", rows: [] },
-]
-
-export const ALL_EXPANDED_GROUPS: ToggleGroup[] = [
-  {
-    name: "Home",
-    count: "4 of 5",
-    expanded: true,
-    rows: [
-      { id: "home", label: "Hide home feed", on: true },
-      { id: "shorts", label: "Hide shorts", on: true },
-      { id: "mixes", label: "Hide mixes", on: false },
-      { id: "trending", label: "Hide trending & explore", on: true },
-      { id: "subscriptions", label: "Hide subscriptions feed", on: true },
-    ],
-  },
-  {
-    name: "Watch page",
-    count: "6 of 8",
-    expanded: true,
-    rows: [
-      { id: "sidebar", label: "Hide video sidebar", on: true },
-      { id: "endfeed", label: "Hide end-screen feed", on: true },
-      { id: "endcards", label: "Hide end-screen cards", on: true },
-      { id: "merch", label: "Hide merch, tickets, offers", on: true },
-      { id: "fundraiser", label: "Hide fundraiser", on: false },
-      { id: "video-info", label: "Hide video info", on: false },
-      { id: "autoplay", label: "Disable autoplay", on: true },
-      { id: "annotations", label: "Disable annotations", on: true },
-    ],
-  },
-  {
-    name: "Comments",
-    count: "1 of 2",
-    expanded: true,
-    rows: [
-      { id: "comments", label: "Hide comments", on: true },
-      { id: "avatars", label: "Hide profile photos", on: false, child: true },
-    ],
-  },
-  {
-    name: "Chrome",
-    count: "1 of 5",
-    expanded: true,
-    rows: [
-      { id: "notifications", label: "Hide notifications", on: false },
-      { id: "search-suggest", label: "Hide search suggestions", on: false },
-      { id: "inapt-search", label: "Hide inapt search results", on: false },
-      { id: "more-yt", label: "Hide “More from YouTube”", on: true },
-      { id: "top-header", label: "Hide top header", on: false },
-    ],
-  },
-]
-
-// ─── Mock YouTube watch page — half-and-half before/after ────────────
-
-export function YouTubeMock({
-  refined = false,
-  width = 720,
-  height = 560,
+function Header({
+  subtitle = "youtube.com",
+  active = true,
 }: {
-  refined?: boolean
-  width?: number
-  height?: number
+  subtitle?: string
+  active?: boolean
 }) {
   return (
     <div
       style={{
-        width,
-        height,
-        background: "#fafafa",
-        position: "relative",
-        overflow: "hidden",
-        fontFamily: FONT_SANS,
-        color: "#0f0f0f",
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "0 14px",
+        height: 56,
+        borderBottom: "1px solid var(--hairline)",
       }}>
-      {/* Top bar */}
-      <div
-        style={{
-          height: 36,
-          background: "#fff",
-          borderBottom: "1px solid #e5e5e5",
-          display: "flex",
-          alignItems: "center",
-          padding: "0 14px",
-          gap: 10,
-        }}>
-        <span
-          style={{
-            width: 18,
-            height: 12,
-            borderRadius: 3,
-            background: "var(--rf-yt-red)",
-            display: "inline-block",
-          }}
-        />
-        <span style={{ fontSize: 12, fontWeight: 600 }}>YouTube</span>
+      <RefineMark size={26} />
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: 14.5, fontWeight: 600, letterSpacing: "-0.015em", lineHeight: 1.1 }}>
+          Refine
+        </div>
         <div
           style={{
-            marginLeft: 18,
-            width: 220,
-            height: 22,
-            borderRadius: 99,
-            border: "1px solid #ccc",
-            background: "#fafafa",
-          }}
-        />
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            marginTop: 3,
+            lineHeight: 1,
+          }}>
+          <span
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: 999,
+              background: active ? "var(--clay)" : "var(--faint)",
+            }}
+          />
+          <span
+            style={{
+              fontSize: 11,
+              fontFamily: FONT_MONO,
+              color: "var(--subtle)",
+            }}>
+            {subtitle}
+          </span>
+        </div>
       </div>
-      {/* Body */}
-      <div
+      <button
+        type="button"
         style={{
-          display: "grid",
-          gridTemplateColumns: refined ? "1fr" : "1fr 220px",
-          gap: 14,
-          padding: 14,
-          height: height - 36,
-          boxSizing: "border-box",
+          width: 32,
+          height: 32,
+          borderRadius: 8,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          border: "none",
+          background: active ? "var(--cream-2)" : "transparent",
+          color: active ? "var(--ink)" : "var(--faint)",
         }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <Icon name="power" size={16} weight={active ? "bold" : "regular"} />
+      </button>
+    </div>
+  )
+}
+
+// ─── Meter bar ───────────────────────────────────────────────────────
+
+function MeterBar({ on, total }: { on: number; total: number }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "10px 15px",
+        borderBottom: "1px solid var(--hairline)",
+      }}>
+      <span style={{ fontSize: 12, color: "var(--muted)", whiteSpace: "nowrap" }}>
+        {on} of {total} hidden
+      </span>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div
+          style={{
+            width: 64,
+            height: 4,
+            borderRadius: 999,
+            background: "var(--cream-3)",
+            overflow: "hidden",
+          }}>
           <div
             style={{
-              aspectRatio: "16 / 9",
-              background: "#0a0a0a",
-              borderRadius: 8,
-              position: "relative",
-              overflow: "hidden",
-            }}>
-            <span
+              width: `${(on / total) * 100}%`,
+              height: "100%",
+              borderRadius: 999,
+              background: "var(--ink)",
+            }}
+          />
+        </div>
+        <span
+          style={{
+            fontSize: 11,
+            fontFamily: FONT_MONO,
+            color: "var(--subtle)",
+          }}>
+          {on}/{total}
+        </span>
+      </div>
+    </div>
+  )
+}
+
+// ─── Grouped list ────────────────────────────────────────────────────
+
+function GroupList({
+  model,
+  openSet,
+  forceAllOn,
+  maxH,
+}: {
+  model: RGroup[]
+  openSet: Set<string>
+  forceAllOn?: boolean
+  maxH?: number
+}) {
+  return (
+    <div style={{ maxHeight: maxH, overflowY: "hidden" }}>
+      {model.map((g) => {
+        const items = forceAllOn ? g.items.map((it) => ({ ...it, on: true })) : g.items
+        const grpOn = items.filter((it) => it.on).length
+        const allOn = grpOn === items.length
+        const isOpen = openSet.has(g.group)
+        return (
+          <div key={g.group} style={{ borderBottom: "1px solid var(--hairline)" }}>
+            <div
               style={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                transform: "translate(-50%, -50%)",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "8px 14px",
+              }}>
+              <Icon
+                name="caret-right"
+                size={11}
+                style={{
+                  color: "var(--subtle)",
+                  transform: isOpen ? "rotate(90deg)" : "none",
+                }}
+              />
+              <span
+                style={{
+                  fontSize: 10,
+                  fontWeight: 600,
+                  letterSpacing: "0.09em",
+                  textTransform: "uppercase",
+                  color: "var(--muted)",
+                }}>
+                {g.group}
+              </span>
+              <span
+                style={{
+                  fontSize: 10.5,
+                  fontFamily: FONT_MONO,
+                  color: "var(--subtle)",
+                }}>
+                {grpOn}/{items.length}
+              </span>
+              <span style={{ marginLeft: "auto" }}>
+                <Switch on={allOn} size="sm" />
+              </span>
+            </div>
+            {isOpen &&
+              items.map((it) => (
+                <Row key={it.id} it={it} dense />
+              ))}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+// ─── Footer ──────────────────────────────────────────────────────────
+
+function Footer() {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 2,
+        padding: "8px 10px",
+        borderTop: "1px solid var(--hairline)",
+      }}>
+      {[
+        ["heart", "Donate"],
+        ["lightbulb", "Request"],
+      ].map(([ic, lbl]) => (
+        <span
+          key={lbl}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            padding: "6px 9px",
+            fontSize: 11.5,
+            color: "var(--muted)",
+          }}>
+          <Icon name={ic} size={14} />
+          {lbl}
+        </span>
+      ))}
+      <div
+        style={{
+          marginLeft: "auto",
+          display: "flex",
+          alignItems: "center",
+          gap: 7,
+          paddingRight: 4,
+        }}>
+        <span style={{ fontSize: 11, color: "var(--subtle)" }}>pause</span>
+        <span className="kbd">⌘⇧Y</span>
+      </div>
+    </div>
+  )
+}
+
+// ─── The popup, all variants ─────────────────────────────────────────
+
+type Variant = "default" | "all" | "paused" | "presets"
+
+export function RefinePopup({
+  variant = "default",
+  width = 344,
+  listMaxH,
+  openGroups,
+}: {
+  variant?: Variant
+  width?: number
+  listMaxH?: number
+  openGroups?: string[]
+}) {
+  const Wrap = ({ children }: { children: ReactNode }) => (
+    <div
+      style={{
+        width,
+        background: "var(--paper)",
+        borderRadius: 14,
+        border: "1px solid var(--hairline-2)",
+        overflow: "hidden",
+        fontFamily: FONT_SANS,
+        color: "var(--ink)",
+        boxShadow: "var(--shadow-pop)",
+      }}>
+      {children}
+    </div>
+  )
+
+  if (variant === "paused") {
+    return (
+      <Wrap>
+        <Header active={false} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+            padding: "40px 30px 34px",
+          }}>
+          <div
+            style={{
+              width: 56,
+              height: 56,
+              borderRadius: 16,
+              background: "var(--cream-2)",
+              border: "1px solid var(--hairline-2)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "var(--ink)",
+              marginBottom: 16,
+            }}>
+            <Icon name="power" size={26} weight="bold" />
+          </div>
+          <div style={{ fontSize: 15.5, fontWeight: 600, letterSpacing: "-0.01em" }}>
+            Refine is paused on this tab
+          </div>
+          <div
+            style={{
+              fontSize: 12.5,
+              color: "var(--muted)",
+              marginTop: 7,
+              lineHeight: 1.5,
+              maxWidth: 244,
+            }}>
+            Everything you hid is back for now. Resume whenever you want it gone again.
+          </div>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              height: 38,
+              marginTop: 20,
+              padding: "0 18px",
+              borderRadius: 9,
+              background: "var(--ink)",
+              color: "var(--cream)",
+              fontSize: 13,
+              fontWeight: 500,
+            }}>
+            <Icon name="power" size={15} weight="bold" />
+            Resume
+          </span>
+        </div>
+        <Footer />
+      </Wrap>
+    )
+  }
+
+  if (variant === "presets") {
+    const tiles = [
+      {
+        id: "focused",
+        icon: "crosshair-simple",
+        name: "Focused",
+        desc: "Everything off-page, hidden",
+        meta: "12 hidden",
+        primary: true,
+      },
+      {
+        id: "watchonly",
+        icon: "monitor-play",
+        name: "Watch-only",
+        desc: "Kills sidebar + comments",
+        meta: "7 hidden",
+        primary: false,
+      },
+      {
+        id: "minimal",
+        icon: "minus-circle",
+        name: "Minimal",
+        desc: "Master only — toggle as you go",
+        meta: "0 hidden",
+        primary: false,
+      },
+    ]
+    return (
+      <Wrap>
+        <Header />
+        <div style={{ padding: "18px 15px 6px" }}>
+          <div style={{ fontSize: 14.5, fontWeight: 600, letterSpacing: "-0.01em" }}>
+            Pick a starting point
+          </div>
+          <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 4 }}>
+            You can tune every element afterward.
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 8,
+            padding: "10px 15px 4px",
+          }}>
+          {tiles.map((t) => (
+            <div
+              key={t.id}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: "12px 13px",
+                borderRadius: 11,
+                textAlign: "left",
+                background: t.primary ? "var(--ink)" : "var(--paper)",
+                border: `1px solid ${t.primary ? "var(--ink)" : "var(--hairline-2)"}`,
+                color: t.primary ? "var(--cream)" : "var(--ink)",
+              }}>
+              <span
+                style={{
+                  width: 34,
+                  height: 34,
+                  borderRadius: 9,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                  background: t.primary ? "rgba(255,255,255,0.12)" : "var(--cream-2)",
+                  color: t.primary ? "var(--cream)" : "var(--ink-2)",
+                }}>
+                <Icon name={t.icon} size={18} weight={t.primary ? "bold" : "regular"} />
+              </span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div
+                  style={{
+                    fontSize: 13.5,
+                    fontWeight: 600,
+                    letterSpacing: "-0.01em",
+                  }}>
+                  {t.name}
+                </div>
+                <div
+                  style={{
+                    fontSize: 11.5,
+                    marginTop: 2,
+                    color: t.primary ? "rgba(251,250,245,0.7)" : "var(--muted)",
+                  }}>
+                  {t.desc}
+                </div>
+              </div>
+              <span
+                style={{
+                  fontSize: 10.5,
+                  fontFamily: FONT_MONO,
+                  color: t.primary ? "rgba(251,250,245,0.6)" : "var(--subtle)",
+                  whiteSpace: "nowrap",
+                }}>
+                {t.meta}
+              </span>
+            </div>
+          ))}
+        </div>
+        <div style={{ textAlign: "center", padding: "12px 0 16px" }}>
+          <span
+            style={{
+              fontSize: 12,
+              color: "var(--muted)",
+              textDecoration: "underline",
+              textUnderlineOffset: 3,
+            }}>
+            I&apos;ll configure manually
+          </span>
+        </div>
+      </Wrap>
+    )
+  }
+
+  // default / all
+  const allOn = variant === "all"
+  const openSet = new Set(
+    openGroups ??
+      (allOn
+        ? ["Feed", "Shorts", "Recommendations", "Watch page", "Comments", "Chrome"]
+        : ["Feed"]),
+  )
+  const { on, total } = countAll(RMODEL, allOn)
+  return (
+    <Wrap>
+      <Header />
+      <MeterBar on={on} total={total} />
+      <GroupList
+        model={RMODEL}
+        openSet={openSet}
+        forceAllOn={allOn}
+        maxH={listMaxH ?? (allOn ? 520 : 318)}
+      />
+      <Footer />
+    </Wrap>
+  )
+}
+
+// ─── Watch page wireframe (CSS-only, no YouTube branding) ────────────
+
+const Bar = ({
+  w = "100%",
+  h = 8,
+  r = 4,
+  c = "var(--hairline-2)",
+  style,
+}: {
+  w?: number | string
+  h?: number
+  r?: number
+  c?: string
+  style?: CSSProperties
+}) => (
+  <div
+    style={{
+      width: w,
+      height: h,
+      borderRadius: r,
+      background: c,
+      ...style,
+    }}
+  />
+)
+
+export function WatchPage({ refined = false }: { refined?: boolean }) {
+  const ink = "var(--hairline-3)"
+  const soft = "var(--cream-2)"
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        background: "var(--paper)",
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+      }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          padding: "11px 16px",
+          borderBottom: "1px solid var(--hairline)",
+          flexShrink: 0,
+        }}>
+        <div style={{ width: 8, height: 8, borderRadius: 2, background: ink }} />
+        <Bar w={62} h={9} c={ink} />
+        <div style={{ flex: 1 }} />
+        {!refined && <Bar w={180} h={20} r={10} c={soft} />}
+        <div style={{ flex: refined ? 1 : 0 }} />
+        {!refined && <Bar w={16} h={16} r={8} c={ink} />}
+        <div style={{ width: 22, height: 22, borderRadius: 999, background: ink }} />
+      </div>
+      <div style={{ display: "flex", gap: 16, padding: 16, flex: 1, minHeight: 0 }}>
+        <div
+          style={{
+            flex: refined ? "0 0 72%" : "0 0 64%",
+            display: "flex",
+            flexDirection: "column",
+            margin: refined ? "0 auto" : 0,
+            minWidth: 0,
+          }}>
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              aspectRatio: "16 / 9",
+              borderRadius: 10,
+              background: "#26241e",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+            }}>
+            <div
+              style={{
                 width: 0,
                 height: 0,
-                borderLeft: "20px solid #fff",
-                borderTop: "12px solid transparent",
-                borderBottom: "12px solid transparent",
+                borderStyle: "solid",
+                borderWidth: "12px 0 12px 20px",
+                borderColor: "transparent transparent transparent rgba(251,250,245,0.85)",
+                marginLeft: 4,
               }}
             />
             {!refined && (
               <div
                 style={{
                   position: "absolute",
-                  right: 10,
-                  bottom: 10,
-                  display: "flex",
-                  gap: 6,
+                  inset: "14% 8%",
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 8,
+                  alignItems: "center",
                 }}>
-                {[1, 2, 3].map((i) => (
-                  <span
+                {[0, 1, 2, 3].map((i) => (
+                  <div
                     key={i}
                     style={{
-                      width: 56,
-                      height: 32,
-                      borderRadius: 4,
-                      border: "1px solid rgba(255,255,255,0.5)",
-                      background: "rgba(0,0,0,0.5)",
+                      aspectRatio: "16 / 9",
+                      borderRadius: 6,
+                      background: "rgba(251,250,245,0.16)",
+                      border: "1px solid rgba(251,250,245,0.22)",
                     }}
                   />
                 ))}
               </div>
             )}
           </div>
+          <div style={{ marginTop: 12 }}>
+            <Bar w="82%" h={11} c={ink} />
+          </div>
+          <div style={{ marginTop: 8 }}>
+            <Bar w="48%" h={9} />
+          </div>
           <div
             style={{
-              height: 16,
-              width: "78%",
-              background: "#222",
-              borderRadius: 3,
-            }}
-          />
+              display: "flex",
+              alignItems: "center",
+              gap: 9,
+              marginTop: 14,
+            }}>
+            <div style={{ width: 26, height: 26, borderRadius: 999, background: ink }} />
+            <Bar w={90} h={8} c={ink} />
+            <div style={{ flex: 1 }} />
+            {!refined && <Bar w={64} h={22} r={11} c={soft} />}
+            {!refined && <Bar w={44} h={22} r={11} c={soft} />}
+          </div>
           <div
             style={{
-              height: 10,
-              width: "40%",
-              background: "#aaa",
-              borderRadius: 3,
-            }}
-          />
-          {!refined && (
-            <div
-              style={{
-                marginTop: 10,
-                height: 88,
-                background: "#fff",
-                border: "1px solid #e5e5e5",
-                borderRadius: 8,
-                padding: 10,
-              }}>
-              <div style={{ height: 10, width: 110, background: "#222", borderRadius: 3 }} />
-              <div
-                style={{
-                  marginTop: 8,
-                  display: "flex",
-                  gap: 6,
-                  flexWrap: "wrap",
-                }}>
-                {[60, 80, 50, 70].map((w, i) => (
-                  <span
+              marginTop: 14,
+              padding: 12,
+              borderRadius: 9,
+              background: soft,
+              display: "flex",
+              flexDirection: "column",
+              gap: 7,
+            }}>
+            <Bar w="40%" h={8} c={ink} />
+            <Bar w="100%" h={7} />
+            <Bar w="92%" h={7} />
+            {!refined && (
+              <div style={{ display: "flex", gap: 8, marginTop: 6 }}>
+                {[0, 1, 2].map((i) => (
+                  <div
                     key={i}
                     style={{
-                      width: w,
-                      height: 18,
-                      borderRadius: 99,
-                      background: "#f4f4f4",
-                      border: "1px solid #e5e5e5",
+                      width: 52,
+                      height: 30,
+                      borderRadius: 6,
+                      background: "var(--clay-soft)",
+                      border: "1px solid var(--clay-line)",
                     }}
                   />
                 ))}
               </div>
-            </div>
-          )}
+            )}
+          </div>
           {!refined && (
             <div
               style={{
-                marginTop: 8,
+                marginTop: 14,
                 display: "flex",
                 flexDirection: "column",
-                gap: 6,
+                gap: 11,
               }}>
-              <div style={{ height: 10, width: 90, background: "#222", borderRadius: 3 }} />
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    gap: 8,
-                    alignItems: "center",
-                  }}>
-                  <span style={{ width: 24, height: 24, borderRadius: 99, background: "#ddd" }} />
-                  <span style={{ flex: 1, height: 8, background: "#ddd", borderRadius: 3 }} />
+              <Bar w="30%" h={8} c={ink} />
+              {[0, 1].map((i) => (
+                <div key={i} style={{ display: "flex", gap: 9 }}>
+                  <div
+                    style={{
+                      width: 22,
+                      height: 22,
+                      borderRadius: 999,
+                      background: ink,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <div
+                    style={{
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 5,
+                    }}>
+                    <Bar w="34%" h={6} />
+                    <Bar w="90%" h={6} />
+                  </div>
                 </div>
               ))}
             </div>
           )}
         </div>
         {!refined && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                style={{
-                  display: "flex",
-                  gap: 8,
-                }}>
-                <span
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              gap: 11,
+              minWidth: 0,
+            }}>
+            <div style={{ display: "flex", gap: 7 }}>
+              {[0, 1, 2].map((i) => (
+                <div
+                  key={i}
                   style={{
-                    width: 88,
-                    height: 50,
-                    background: "#ddd",
-                    borderRadius: 6,
-                    flex: "0 0 auto",
+                    flex: 1,
+                    aspectRatio: "9 / 15",
+                    borderRadius: 7,
+                    background: soft,
+                    border: "1px solid var(--hairline)",
                   }}
                 />
-                <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 4 }}>
-                  <span style={{ height: 9, background: "#222", borderRadius: 3 }} />
-                  <span style={{ height: 7, width: "80%", background: "#aaa", borderRadius: 3 }} />
-                  <span style={{ height: 7, width: "50%", background: "#aaa", borderRadius: 3 }} />
+              ))}
+            </div>
+            {[0, 1, 2, 3].map((i) => (
+              <div key={i} style={{ display: "flex", gap: 9 }}>
+                <div
+                  style={{
+                    width: "42%",
+                    aspectRatio: "16 / 9",
+                    borderRadius: 7,
+                    background: "#2c2a23",
+                    flexShrink: 0,
+                  }}
+                />
+                <div
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 6,
+                    paddingTop: 3,
+                  }}>
+                  <Bar w="100%" h={7} c={ink} />
+                  <Bar w="70%" h={6} />
+                  <Bar w="48%" h={6} />
                 </div>
               </div>
             ))}
           </div>
         )}
+      </div>
+    </div>
+  )
+}
+
+// ─── Before / after split with a labeled seam ────────────────────────
+
+export function SplitWatch({
+  height = 360,
+  radius = 14,
+  labels = ["off", "on"],
+}: {
+  height?: number
+  radius?: number
+  labels?: [string, string]
+}) {
+  return (
+    <div
+      style={{
+        position: "relative",
+        height,
+        borderRadius: radius,
+        overflow: "hidden",
+        border: "1px solid var(--hairline-2)",
+        boxShadow: "var(--shadow-card)",
+        background: "var(--paper)",
+      }}>
+      <div style={{ display: "flex", height: "100%" }}>
+        <div style={{ flex: 1, minWidth: 0, overflow: "hidden" }}>
+          <WatchPage refined={false} />
+        </div>
+        <div style={{ flex: 1, minWidth: 0, overflow: "hidden", background: "var(--cream)" }}>
+          <WatchPage refined={true} />
+        </div>
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          bottom: 0,
+          left: "50%",
+          width: 1,
+          background: "var(--ink)",
+          transform: "translateX(-0.5px)",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          display: "flex",
+          alignItems: "center",
+          background: "var(--ink)",
+          color: "var(--cream)",
+          borderRadius: 999,
+          padding: "5px 4px",
+          fontFamily: FONT_MONO,
+          fontSize: 11,
+          letterSpacing: "0.04em",
+          boxShadow: "var(--shadow-sm)",
+        }}>
+        <span style={{ padding: "0 9px", opacity: 0.55 }}>{labels[0]}</span>
+        <span style={{ width: 1, height: 12, background: "rgba(251,250,245,0.3)" }} />
+        <span style={{ padding: "0 9px", fontWeight: 600 }}>{labels[1]}</span>
       </div>
     </div>
   )

@@ -1,9 +1,9 @@
 import type { ReactNode } from "react"
 
 import {
-  IconAmber,
   IconBlack,
   IconBleed,
+  IconClay,
   IconPaper,
   Marquee,
   Shot1Popup,
@@ -45,13 +45,13 @@ export const CWS_ASSETS: CwsAsset[] = [
     render: () => <IconBlack />,
   },
   {
-    slug: "icon-amber",
-    label: "Icon · amber",
+    slug: "icon-clay",
+    label: "Icon · clay",
     width: 128,
     height: 128,
     group: "icon",
-    description: "Warm alt — backup",
-    render: () => <IconAmber />,
+    description: "Clay-accent variant",
+    render: () => <IconClay />,
   },
   {
     slug: "icon-bleed",
@@ -59,7 +59,7 @@ export const CWS_ASSETS: CwsAsset[] = [
     width: 128,
     height: 128,
     group: "icon",
-    description: "Mark bleeds to the edges",
+    description: "Bare mark on ink",
     render: () => <IconBleed />,
   },
   // Promo tiles
