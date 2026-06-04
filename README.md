@@ -114,12 +114,12 @@ bun run package      # build + zip for Chrome Web Store upload
 
 ## Deploy the marketing site
 
-The repo root ships with `vercel.json` that points the build at `www/`. Either:
+1. Import the repo at <https://vercel.com/new>
+2. In **Project Settings → General**, set **Root Directory** to `www`
+3. Framework auto-detects as **Next.js**; build/install commands stay at defaults
+4. Deploy
 
-- **Auto-detect:** import the repo at <https://vercel.com/new>; Vercel will read `vercel.json` and configure everything.
-- **Manual:** if importing without `vercel.json`, set **Root Directory** = `www`, **Framework** = Next.js.
-
-After the first deploy, update the `SITE` constant in `www/src/app/sitemap.ts` and the `sitemap` URL in `www/src/app/robots.ts` if your domain differs from the placeholder.
+After the first deploy, update the `SITE` constant in `www/src/app/sitemap.ts` and the `sitemap` URL in `www/src/app/robots.ts` if your real domain differs from the placeholder.
 
 ## Repo layout
 
