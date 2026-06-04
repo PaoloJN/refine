@@ -69,7 +69,7 @@ function Brand() {
   return (
     <a className="rf-brand" href="/">
       <span className="rf-brand-mark">
-        <LogoMark size={26} />
+        <LogoMark size={22} />
       </span>
       <span className="rf-brand-name">Refine</span>
       <span className="rf-brand-version">v1.0</span>

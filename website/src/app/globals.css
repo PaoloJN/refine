@@ -312,7 +312,7 @@
 .rf-brand {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
+  gap: 6px;
   text-decoration: none;
   color: var(--fg);
 }
