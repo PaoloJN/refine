@@ -48,8 +48,12 @@ function GithubMark({ size = 14 }: { size?: number }) {
 }
 
 function LogoMark({ size = 14, color = "var(--fg)" }: { size?: number; color?: string }) {
+  // viewBox cropped to the marks themselves (the design fits inside x=40-140,
+  // y=40-140). Same approach as the extension's Mark component — fills the
+  // rendered box instead of leaving 20% empty padding around the glyph, so
+  // the perceived size matches the px we pass in.
   return (
-    <svg viewBox="0 0 180 180" width={size} height={size} fill={color} aria-hidden="true">
+    <svg viewBox="35 35 110 110" width={size} height={size} fill={color} aria-hidden="true">
       <path d="M40 60C40 48.9543 48.9543 40 60 40V123H40V60Z" />
       <rect x="80" y="80" width="20" height="20" />
       <rect x="100" y="60" width="20" height="20" />
@@ -65,7 +69,7 @@ function Brand() {
   return (
     <a className="rf-brand" href="/">
       <span className="rf-brand-mark">
-        <LogoMark size={22} />
+        <LogoMark size={26} />
       </span>
       <span className="rf-brand-name">Refine</span>
       <span className="rf-brand-version">v1.0</span>
@@ -449,7 +453,7 @@ function Footer() {
       <div className="rf-wrap">
         <div className="rf-footer-top">
           <div className="rf-footer-brand">
-            <LogoMark size={32} />
+            <LogoMark size={42} />
             <div className="rf-footer-brand-text">
               <span className="rf-footer-brand-name">Refine</span>
               <span className="rf-footer-brand-meta">Chrome extension · v1.0</span>
