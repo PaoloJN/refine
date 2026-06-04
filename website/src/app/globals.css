@@ -3,28 +3,33 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ─── Refine refined-dark palette ────────────────────────────── */
+/* ─── Refine palette — light default, dark via `.dark` on <html> ─ */
 :root {
   --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: var(--font-geist-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --bg: #0d0d0d;
-  --bg-elevated: #161616;
-  --bg-inset: #0a0a0a;
-  --bg-hover: #1a1a1a;
+  /* Light — warm-neutral, mostly off-white */
+  --bg: #fafafa;
+  --bg-elevated: #ffffff;
+  --bg-inset: #f3f3f3;
+  --bg-hover: #f0f0f0;
 
-  --fg: #f3f3f3;
-  --fg-muted: #a3a3a3;
-  --fg-subtle: #6e6e6e;
-  --fg-faint: #4a4a4a;
+  --fg: #0a0a0a;
+  --fg-muted: #525252;
+  --fg-subtle: #737373;
+  --fg-faint: #a3a3a3;
 
-  --border: #1f1f1f;
-  --border-strong: #2a2a2a;
+  --border: #e8e8e8;
+  --border-strong: #d4d4d4;
 
   --accent: #b8584e;
   --accent-soft: rgba(184, 88, 78, 0.1);
-  --accent-glow: rgba(184, 88, 78, 0.06);
-  --live: #4ade80;
+  --accent-glow: rgba(184, 88, 78, 0.05);
+  --live: #16a34a;
+
+  --nav-bg: rgba(250, 250, 250, 0.78);
+  --primary-hover: #262626;
+  --ghost-hover-border: #c4c4c4;
 
   --radius: 8px;
 
@@ -46,6 +51,30 @@
   --destructive: var(--accent);
   --input: var(--border-strong);
   --ring: var(--accent);
+}
+
+/* Dark palette — applied when <html> has the .dark class. */
+.dark {
+  --bg: #0d0d0d;
+  --bg-elevated: #161616;
+  --bg-inset: #0a0a0a;
+  --bg-hover: #1a1a1a;
+
+  --fg: #f3f3f3;
+  --fg-muted: #a3a3a3;
+  --fg-subtle: #6e6e6e;
+  --fg-faint: #4a4a4a;
+
+  --border: #1f1f1f;
+  --border-strong: #2a2a2a;
+
+  --accent-soft: rgba(184, 88, 78, 0.1);
+  --accent-glow: rgba(184, 88, 78, 0.06);
+  --live: #4ade80;
+
+  --nav-bg: rgba(13, 13, 13, 0.72);
+  --primary-hover: #ffffff;
+  --ghost-hover-border: #353535;
 }
 
 @theme inline {
@@ -81,11 +110,12 @@
   }
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
+    color-scheme: light;
     font-family: var(--font-sans);
     color: var(--fg);
     background: var(--bg);
   }
+  html.dark { color-scheme: dark; }
   body {
     margin: 0;
     background: var(--bg);
@@ -108,6 +138,10 @@
 .rf-section {
   padding: 80px 0;
   border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+.rf-section--alt {
+  background: var(--bg-elevated);
 }
 
 .rf-section-tight {
@@ -207,7 +241,7 @@
   height: 60px;
   display: flex;
   align-items: center;
-  background: rgba(13, 13, 13, 0.72);
+  background: var(--nav-bg);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
@@ -247,6 +281,24 @@
   transition: color 0.15s ease;
 }
 .rf-nav-link:hover { color: var(--fg); }
+.rf-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--fg-muted);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.rf-theme-toggle:hover {
+  background: var(--bg-elevated);
+  color: var(--fg);
+  border-color: var(--border-strong);
+}
 .rf-nav-link-kbd {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -316,8 +368,8 @@
   border-color: var(--fg);
 }
 .rf-btn-primary:hover {
-  background: #ffffff;
-  border-color: #ffffff;
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
 }
 .rf-btn-ghost {
   background: transparent;
@@ -326,7 +378,7 @@
 }
 .rf-btn-ghost:hover {
   background: var(--bg-elevated);
-  border-color: #353535;
+  border-color: var(--ghost-hover-border);
 }
 .rf-btn-lg {
   height: 36px;
@@ -1125,13 +1177,14 @@
   margin-bottom: 14px;
 }
 .rf-footer-link {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 7px;
   font-size: 13px;
   color: var(--fg-muted);
   text-decoration: none;
   padding: 4px 0;
+  width: fit-content;
   transition: color 0.15s ease;
 }
 .rf-footer-link:hover { color: var(--fg); }

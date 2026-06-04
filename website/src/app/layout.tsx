@@ -18,9 +18,18 @@ export const metadata: Metadata = {
   }
 }
 
+// Read stored theme (or fall back to OS) and apply before first paint so the
+// page never flashes the wrong palette. Inline so it runs synchronously
+// before the React tree mounts. The body of the function is the only thing
+// shipped; keep it small.
+const THEME_BOOT_SCRIPT = `(function(){try{var t=localStorage.getItem('refine-theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.classList.add(t);}catch(e){}})();`
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
+      </head>
       <body>{children}</body>
     </html>
   )

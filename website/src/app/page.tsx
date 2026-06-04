@@ -1,5 +1,7 @@
 import { ArrowRight, ArrowUpRight, Github, Plus } from "lucide-react"
 
+import { ThemeToggle } from "@/components/theme-toggle"
+
 import { DemoPopup } from "./_extension/demo-popup"
 
 const CHROME_STORE_URL = "https://chromewebstore.google.com/"
@@ -50,7 +52,7 @@ function Brand() {
       <span className="rf-brand-mark">
         <LogoMark size={22} />
       </span>
-      <span className="rf-brand-name">refine</span>
+      <span className="rf-brand-name">Refine</span>
       <span className="rf-brand-version">v1.0</span>
     </a>
   )
@@ -110,6 +112,7 @@ function Nav() {
             <Github size={13} />
             GitHub
           </a>
+          <ThemeToggle />
           <a
             className="rf-nav-link rf-nav-link-cta rf-btn rf-btn-primary"
             href={CHROME_STORE_URL}
@@ -219,7 +222,7 @@ function Hides() {
   const total = HIDE_GROUPS.reduce((n, g) => n + g.items.length, 0)
   let counter = 0
   return (
-    <section className="rf-section" id="hides">
+    <section className="rf-section rf-section--alt" id="hides">
       <div className="rf-wrap">
         <div className="rf-sec-head">
           <div>
@@ -433,7 +436,7 @@ function Footer() {
           <div className="rf-footer-brand">
             <LogoMark size={32} />
             <div className="rf-footer-brand-text">
-              <span className="rf-footer-brand-name">refine</span>
+              <span className="rf-footer-brand-name">Refine</span>
               <span className="rf-footer-brand-meta">Chrome extension · v1.0</span>
             </div>
           </div>
@@ -517,7 +520,7 @@ function Footer() {
         </div>
 
         <div className="rf-footer-wordmark" aria-hidden>
-          refine
+          Refine
         </div>
 
         <div className="rf-footer-bottom">
