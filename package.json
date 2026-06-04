@@ -1,7 +1,7 @@
 {
   "name": "refine",
   "displayName": "Refine",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Hide YouTube shorts, recommendations, comments, and other distractions. Reclaim your watch page.",
   "author": "Refine",
   "scripts": {
@@ -13,7 +13,8 @@
     "@phosphor-icons/react": "^2.1.7",
     "@plasmohq/storage": "^1.13.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.270",

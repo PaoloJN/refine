@@ -10,7 +10,7 @@
   --rf-font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
-/* ─── Dark (default) — snipprompt neutral, softened contrast ── */
+/* ─── Dark — neutral grayscale, matches the marketing site ── */
 .dark {
   color-scheme: dark;
   --bg: #0d0d0d;
@@ -19,8 +19,8 @@
   --bg-inset: #0a0a0a;
   --fg: #f3f3f3;
   --fg-muted: #a3a3a3;
-  --fg-subtle: #878787;
-  --fg-disabled: #525252;
+  --fg-subtle: #6e6e6e;
+  --fg-disabled: #4a4a4a;
   --border: #1f1f1f;
   --border-strong: #2a2a2a;
   --border-subtle: #1a1a1a;
@@ -28,22 +28,22 @@
   --shadow-pop: 0 16px 32px rgba(0, 0, 0, 0.55);
 }
 
-/* ─── Light — warm cream ────────────────────────────────────── */
+/* ─── Light — neutral, matches the marketing site ──────────── */
 .light {
   color-scheme: light;
   --bg: #fafafa;
   --bg-elevated: #ffffff;
   --bg-overlay: #ffffff;
-  --bg-inset: #fbfaf5;
-  --fg: #111111;
-  --fg-muted: #7a7567;
-  --fg-subtle: #8a8579;
-  --fg-disabled: #bdb8ad;
-  --border: #efece5;
-  --border-strong: #e8e4d8;
-  --border-subtle: #f4f1e9;
-  --ring: #999999;
-  --shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.18);
+  --bg-inset: #f3f3f3;
+  --fg: #0a0a0a;
+  --fg-muted: #525252;
+  --fg-subtle: #737373;
+  --fg-disabled: #a3a3a3;
+  --border: #e8e8e8;
+  --border-strong: #d4d4d4;
+  --border-subtle: #f0f0f0;
+  --ring: #737373;
+  --shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.08);
 }
 
 /* ─── Reset / shell ─────────────────────────────────────────── */

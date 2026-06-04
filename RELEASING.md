@@ -8,7 +8,7 @@ The very first upload still has to be **manual** — Chrome only assigns the ext
 
 ### 1. First manual upload
 
-1. `bun run package` → produces `build/chrome-mv3-prod.zip`
+1. Easiest: go to the **Actions** tab, open the latest passing **CI** run on `main`, and download the **refine-chrome-mv3-prod** artifact. Unzip → you get `chrome-mv3-prod.zip`. (Locally, `bun run package` works too if your sharp/native deps are set up.)
 2. Go to <https://chrome.google.com/webstore/devconsole>
 3. Pay the one-time $5 developer fee if you haven't already
 4. **New item** → upload the zip → fill in listing details → submit
