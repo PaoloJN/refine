@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Refine is a Chrome extension (MV3) that hides YouTube distractions — Shorts, recommendations, comments, end-screen feeds, merch shelves, the homepage feed, etc. The companion `website/` is a Next.js marketing site that links to the Chrome Web Store listing.
+Refine is a Chrome extension (MV3) that hides YouTube distractions — Shorts, recommendations, comments, end-screen feeds, merch shelves, the homepage feed, etc. The companion `www/` is a Next.js marketing site that links to the Chrome Web Store listing.
 
 The design comes from a Claude Design handoff bundle that lives in `/tmp/design/refine/` while the project is being scaffolded. The chosen variant ("Compact + grouped + meter + enriched footer") lives in `refine/project/lib/chosen.jsx` of that bundle and was the source for `src/popup.tsx`, the components in `src/components/`, and the tokens in `src/popup.css`.
 
@@ -31,7 +31,7 @@ The design comes from a Claude Design handoff bundle that lives in `/tmp/design/
 │       ├── theme.ts           # system / dark / light resolver
 │       └── youtube-css.ts     # per-feature CSS selectors, gated on data-attrs
 ├── assets/                    # icon.png (Plasmo auto-derives all sizes)
-├── website/                   # Next.js 16 marketing site (see below)
+├── www/                   # Next.js 16 marketing site (see below)
 └── CLAUDE.md
 ```
 
@@ -51,7 +51,7 @@ bun install
 bun run dev                  # plasmo dev → load build/chrome-mv3-dev as unpacked
 
 # Website
-cd website
+cd www
 bun install
 bun run dev                  # http://localhost:3000
 ```
@@ -87,12 +87,12 @@ All variants share `PopupFrame`, `Header`, and `FooterPro` from `components/popu
 ## Where things live
 
 - **Adding a new feature toggle:** add to `MODEL` in `src/lib/model.ts` (the `FeatureId` union too), then add a `Rule` with selectors to `RULES` in `src/lib/youtube-css.ts`. The popup picks it up automatically.
-- **Tweaking the look:** all popup styling is in `src/popup.css` — design tokens at the top (oklch palette from the bundle), components below, prefixed `rf-`. Website styles use Tailwind classes against the tokens in `website/src/app/globals.css`.
+- **Tweaking the look:** all popup styling is in `src/popup.css` — design tokens at the top (oklch palette from the bundle), components below, prefixed `rf-`. Website styles use Tailwind classes against the tokens in `www/src/app/globals.css`.
 - **YouTube selector breakage:** updates go in `RULES` of `src/lib/youtube-css.ts`. YouTube ships layout changes constantly — slightly-greedy selectors are preferred over slightly-missed ones.
 
 ## Need a design? Use Claude Design.
 
-When you need a new visual asset — landing page revisions, popup variants, screenshot mocks, OG images, anything where seeing-before-building is faster than guess-and-iterate — invoke the `claude-design` skill (for UI/page layouts) or `claude-design-graphic` skill (for one-off assets like logos, OG images, CWS screenshots). Both work by writing a precise brief and handing off to Claude Design (claude.ai/design); Claude Code can't open Claude Design directly. After the user runs the brief, save the output back into this repo (popup goes to `src/`, marketing assets go to `website/public/` or `assets/cws/`).
+When you need a new visual asset — landing page revisions, popup variants, screenshot mocks, OG images, anything where seeing-before-building is faster than guess-and-iterate — invoke the `claude-design` skill (for UI/page layouts) or `claude-design-graphic` skill (for one-off assets like logos, OG images, CWS screenshots). Both work by writing a precise brief and handing off to Claude Design (claude.ai/design); Claude Code can't open Claude Design directly. After the user runs the brief, save the output back into this repo (popup goes to `src/`, marketing assets go to `www/public/` or `assets/cws/`).
 
 The original Refine design bundle exported from Claude Design lives at `/tmp/design/refine/` during initial scaffolding — read `refine/project/Unhook States.html` and `refine/project/lib/chosen.jsx` if you need to reconstruct the source design decisions.
 

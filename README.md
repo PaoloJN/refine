@@ -99,7 +99,7 @@ Then in Chrome: `chrome://extensions` → enable **Developer mode** → **Load u
 To run the marketing site:
 
 ```bash
-cd website
+cd www
 bun install
 bun run dev          # http://localhost:3000
 ```
@@ -111,6 +111,15 @@ bun run dev          # plasmo dev — hot-reloading extension build
 bun run build        # production build to build/chrome-mv3-prod/
 bun run package      # build + zip for Chrome Web Store upload
 ```
+
+## Deploy the marketing site
+
+The repo root ships with `vercel.json` that points the build at `www/`. Either:
+
+- **Auto-detect:** import the repo at <https://vercel.com/new>; Vercel will read `vercel.json` and configure everything.
+- **Manual:** if importing without `vercel.json`, set **Root Directory** = `www`, **Framework** = Next.js.
+
+After the first deploy, update the `SITE` constant in `www/src/app/sitemap.ts` and the `sitemap` URL in `www/src/app/robots.ts` if your domain differs from the placeholder.
 
 ## Repo layout
 
@@ -126,7 +135,7 @@ bun run package      # build + zip for Chrome Web Store upload
 │   ├── components/            # popup UI primitives
 │   └── lib/                   # model, settings, theme, css generator
 ├── assets/                    # icon.png (Plasmo derives all sizes), logo.svg
-├── website/                   # Next.js 16 marketing site (App Router)
+├── www/                       # Next.js 16 marketing site (App Router)
 ├── PRIVACY.md
 └── LICENSE
 ```
