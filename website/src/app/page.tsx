@@ -227,10 +227,6 @@ function Hero() {
           <div className="rf-popup-overlay">
             <DemoPopup theme="dark" />
           </div>
-          <div className="rf-stage-meta">
-            <span className="rf-stage-meta-dot" />
-            Active · 11/16 hidden
-          </div>
         </div>
       </div>
     </section>
