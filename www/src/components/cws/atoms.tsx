@@ -28,23 +28,31 @@ export function CwsFrame({
   )
 }
 
-// ─── Refine brand mark — single SVG, clipPath squircle, currentColor.
-// Construction mirrors snipprompt's BracketMark: one self-contained
-// SVG, no wrapper div. `color` controls the ink body; `glyphColor`
-// controls the `R` paths drawn over it.
+// ─── Refine brand mark — flat square, inverted-color pair.
+//
+// `theme="dark"`  → dark ink background, cream R   (use on light canvases)
+// `theme="light"` → cream background, dark ink R   (use on dark canvases)
+//
+// `color`/`glyphColor` still available for custom palettes; they win over
+// the theme preset.
 
 export function RefineMark({
   size = 24,
-  color = "currentColor",
-  glyphColor = "var(--cream)",
+  theme = "dark",
+  color,
+  glyphColor,
   style,
 }: {
   size?: number
+  theme?: "dark" | "light"
   color?: string
   glyphColor?: string
   style?: CSSProperties
 }) {
-  const id = `rf-mark-${size}`
+  const presetBg = theme === "dark" ? "var(--ink)" : "var(--cream)"
+  const presetGlyph = theme === "dark" ? "var(--cream)" : "var(--ink)"
+  const bg = color ?? presetBg
+  const fg = glyphColor ?? presetGlyph
   return (
     <svg
       width={size}
@@ -52,23 +60,16 @@ export function RefineMark({
       viewBox="0 0 180 180"
       xmlns="http://www.w3.org/2000/svg"
       aria-label="Refine"
-      style={{ flex: "0 0 auto", display: "block", color, ...style }}>
-      <defs>
-        <clipPath id={id}>
-          <rect width="180" height="180" rx="40" />
-        </clipPath>
-      </defs>
-      <g clipPath={`url(#${id})`}>
-        <rect width="180" height="180" fill="currentColor" />
-        <g fill={glyphColor}>
-          <path d="M40 60C40 48.9543 48.9543 40 60 40V123H40V60Z" />
-          <rect x="80" y="80" width="20" height="20" />
-          <rect x="100" y="60" width="20" height="20" />
-          <rect x="120" y="40" width="20" height="20" />
-          <path d="M120 80H140V120C140 131.046 131.046 140 120 140V140V80Z" />
-          <path d="M40 60C40 48.9543 48.9543 40 60 40L100 40V60L40 60Z" />
-          <path d="M140 120C140 131.046 131.046 140 120 140H60V120L140 120Z" />
-        </g>
+      style={{ flex: "0 0 auto", display: "block", ...style }}>
+      <rect width="180" height="180" fill={bg} />
+      <g fill={fg}>
+        <path d="M40 60C40 48.9543 48.9543 40 60 40V123H40V60Z" />
+        <rect x="80" y="80" width="20" height="20" />
+        <rect x="100" y="60" width="20" height="20" />
+        <rect x="120" y="40" width="20" height="20" />
+        <path d="M120 80H140V120C140 131.046 131.046 140 120 140V140V80Z" />
+        <path d="M40 60C40 48.9543 48.9543 40 60 40L100 40V60L40 60Z" />
+        <path d="M140 120C140 131.046 131.046 140 120 140H60V120L140 120Z" />
       </g>
     </svg>
   )
