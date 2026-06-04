@@ -33,6 +33,7 @@
     "permissions": [
       "storage",
       "tabs",
+      "scripting",
       "declarativeNetRequest"
     ],
     "host_permissions": [

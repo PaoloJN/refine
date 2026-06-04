@@ -116,6 +116,12 @@ Saves the user's per-element hide toggles, theme preference, and master on/off s
 Reads the active tab's URL so the popup can show the correct state — active on YouTube, paused on this site, or "open YouTube to start" when the user is on any other site. Nothing about other tabs is read or transmitted.
 ```
 
+### `scripting`
+
+```
+Used to register a single MAIN-world content script (youtube-page-world.ts) that runs in YouTube's own JavaScript context. This is the only way for the extension to call YouTube's player API directly (movie_player.setAutonavState) so the "Disable autoplay" toggle works without DOM polling. The page-world script only runs on www.youtube.com and only listens for one custom event dispatched from the isolated content script.
+```
+
 ### `declarativeNetRequest`
 
 ```
