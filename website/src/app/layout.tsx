@@ -26,7 +26,14 @@ const THEME_BOOT_SCRIPT = `(function(){try{var t=localStorage.getItem('refine-th
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    // suppressHydrationWarning: the THEME_BOOT_SCRIPT below adds a
+    // `light` or `dark` class to <html> before React hydrates, so the
+    // server-rendered className intentionally differs from the client
+    // className on first paint. This is the canonical next-themes pattern.
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
       </head>
