@@ -2,7 +2,7 @@
   <img src="assets/logo-readme.svg" alt="Refine logo" width="120" />
 </p>
 
-<h1 align="center">refine</h1>
+<h1 align="center">Refine</h1>
 
 <p align="center">
   A Chrome extension that hides YouTube distractions — shorts, recommendations, comments, end screens, merch shelves, the lot.
