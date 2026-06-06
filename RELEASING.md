@@ -37,10 +37,12 @@ In repo Settings → Secrets and variables → Actions, add a secret named `BPP_
     "clientId": "…apps.googleusercontent.com",
     "clientSecret": "…",
     "refreshToken": "…",
-    "extId": "…"
+    "extId": "pmogecbmdkdmhokijcpjcldjlgebaecg"
   }
 }
 ```
+
+The `extId` is fixed — that's the ID Chrome assigned to Refine on its first upload.
 
 (One JSON blob — BPP parses it server-side.)
 

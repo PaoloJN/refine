@@ -28,6 +28,7 @@ function CwsFrame1280({
   caption,
   children,
   mockLeft = 660,
+  mockTop = 0,
   headlineSize = 50,
 }: {
   num: string
@@ -37,6 +38,7 @@ function CwsFrame1280({
   caption: [string, string][]
   children: ReactNode
   mockLeft?: number
+  mockTop?: number
   headlineSize?: number
 }) {
   return (
@@ -63,7 +65,7 @@ function CwsFrame1280({
           position: "absolute",
           left: mockLeft,
           right: 0,
-          top: 0,
+          top: mockTop,
           bottom: 116,
           display: "flex",
           alignItems: "center",
@@ -113,7 +115,8 @@ export function Shot1Popup() {
         ["STORAGE", "local-only"],
         ["TRACKING", "none"],
       ]}
-      mockLeft={520}>
+      mockLeft={520}
+      mockTop={48}>
       <div style={{ position: "relative", width: 720, height: 600 }}>
         <div
           className="win"
@@ -458,25 +461,44 @@ export function Shot3BeforeAfter() {
           boxShadow: "var(--shadow-card)",
           background: "var(--paper)",
         }}>
-        <Placeholder
-          hint="OFF · vanilla YouTube screenshot"
+        {/* Real screenshots — vanilla YouTube on the left, Refine-on on the
+            right. object-fit: cover + left top anchors the player area so the
+            split crops the right rail off if needed instead of squashing
+            the video. */}
+        <div style={{ flex: 1, position: "relative", overflow: "hidden" }}>
+          <img
+            src="/cws/youtube-before.png"
+            alt="YouTube watch page without Refine — full header, live chat, comments visible"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+              objectPosition: "center",
+              display: "block",
+              background: "var(--paper)",
+            }}
+          />
+        </div>
+        <div
           style={{
             flex: 1,
-            border: "none",
-            borderRadius: 0,
-            height: "100%",
-          }}
-        />
-        <Placeholder
-          hint="ON · refined YouTube screenshot"
-          style={{
-            flex: 1,
-            border: "none",
-            borderRadius: 0,
+            position: "relative",
+            overflow: "hidden",
             borderLeft: "1px solid var(--ink)",
-            height: "100%",
-          }}
-        />
+          }}>
+          <img
+            src="/cws/youtube-after.png"
+            alt="Same page with Refine on — header gone, live chat collapsed, comments hidden"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+              objectPosition: "center",
+              display: "block",
+              background: "var(--paper)",
+            }}
+          />
+        </div>
         <div
           style={{
             position: "absolute",

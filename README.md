@@ -9,6 +9,10 @@
 </p>
 
 <p align="center">
+  <a href="https://chromewebstore.google.com/detail/refine-%E2%80%94-hide-youtube-dis/pmogecbmdkdmhokijcpjcldjlgebaecg"><strong>Install on the Chrome Web Store →</strong></a>
+</p>
+
+<p align="center">
   <a href="#features">Features</a>
   &middot;
   <a href="#how-it-works">How it works</a>
