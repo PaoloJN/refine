@@ -4,7 +4,8 @@ import { ThemeToggle } from "@/components/theme-toggle"
 
 import { DemoPopup } from "./_extension/demo-popup"
 
-const CHROME_STORE_URL = "https://chromewebstore.google.com/"
+const CHROME_STORE_URL =
+  "https://chromewebstore.google.com/detail/refine-%E2%80%94-hide-youtube-dis/pmogecbmdkdmhokijcpjcldjlgebaecg"
 const GITHUB_URL = "https://github.com/PaoloJN/refine"
 
 type HideGroup = {

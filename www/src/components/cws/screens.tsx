@@ -584,17 +584,20 @@ export function Shot4Pause() {
               youtube.com
             </span>
           </div>
-          <Placeholder
-            hint="YouTube screenshot — cluttered (paused state)"
+          <img
+            src="/cws/youtube-before.png"
+            alt="YouTube watch page in its cluttered default state — what Refine reverts to when paused"
             style={{
               position: "absolute",
               left: 0,
               right: 0,
               top: 34,
               bottom: 0,
-              borderRadius: 0,
-              border: "none",
-              height: "auto",
+              width: "100%",
+              height: "calc(100% - 34px)",
+              objectFit: "cover",
+              objectPosition: "left top",
+              display: "block",
             }}
           />
           <div
@@ -671,17 +674,20 @@ export function Shot5Presets() {
               youtube.com
             </span>
           </div>
-          <Placeholder
-            hint="YouTube screenshot — first install moment"
+          <img
+            src="/cws/youtube-before.png"
+            alt="YouTube watch page on first install — full of distractions the user is about to hide"
             style={{
               position: "absolute",
               left: 0,
               right: 0,
               top: 34,
               bottom: 0,
-              borderRadius: 0,
-              border: "none",
-              height: "auto",
+              width: "100%",
+              height: "calc(100% - 34px)",
+              objectFit: "cover",
+              objectPosition: "left top",
+              display: "block",
             }}
           />
           <div

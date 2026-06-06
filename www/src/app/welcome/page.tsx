@@ -22,7 +22,8 @@ export const metadata: Metadata = {
   description: "Refine is installed. Pin it, open YouTube, and flip what you don't want.",
 }
 
-const CHROME_STORE_URL = "https://chromewebstore.google.com/"
+const CHROME_STORE_URL =
+  "https://chromewebstore.google.com/detail/refine-%E2%80%94-hide-youtube-dis/pmogecbmdkdmhokijcpjcldjlgebaecg"
 
 export default function WelcomePage() {
   return (
