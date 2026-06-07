@@ -57,20 +57,33 @@ Source on GitHub if you want to fork it or open an issue when a selector breaks:
 
 ---
 
-## Twitter / X — single tweet (under 280 chars)
+## Twitter / X — personal, not an ad
+
+The "got tired of shorts → made a thing" arc. Pick whichever lands closest. All under 280 chars.
+
+### V1 — the shortest
 
 ```
-vibe coded a small chrome extension to hide every distraction on youtube — shorts, recommendations, the homepage feed, comments, end screens, the lot. one toggle per element. free, open source, no tracking.
+got tired of youtube shorts hijacking my attention so i made a chrome extension that just turns them off. and the homepage feed. and recommendations. and comments. one switch each.
+
+free + open source
+https://chromewebstore.google.com/detail/refine-%E2%80%94-hide-youtube-dis/pmogecbmdkdmhokijcpjcldjlgebaecg
+```
+
+### V2 — vibier
+
+```
+got really tired of youtube shorts so i did this
+
+a chrome extension that just turns them off. and the homepage, the sidebar recs, comments, end screens. one toggle each. free, open source, no tracking.
 
 https://chromewebstore.google.com/detail/refine-%E2%80%94-hide-youtube-dis/pmogecbmdkdmhokijcpjcldjlgebaecg
 ```
 
-(247 chars including the URL — fits.)
-
-## Twitter / X — alt voice (if the first feels too dry)
+### V3 — confessional
 
 ```
-spent the weekend making youtube watchable again. it's called refine — flip off shorts, the homepage feed, sidebar recs, comments, whatever. no account, no telemetry, fully open source.
+spent way too long doomscrolling shorts. made a chrome extension this weekend that just hides everything i don't want — shorts, the homepage feed, recs, comments. free, open source, no accounts.
 
 https://chromewebstore.google.com/detail/refine-%E2%80%94-hide-youtube-dis/pmogecbmdkdmhokijcpjcldjlgebaecg
 ```
